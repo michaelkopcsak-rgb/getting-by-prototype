@@ -1,0 +1,1540 @@
+<!doctype html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Getting By</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Getting By">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#F0F5F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1A16" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#F6F4EF; --surface:#FFFFFF; --ink:#22302A; --muted:#5D6B64; --line:#E3DFD6;
+  --sage:#3E6B57; --sage-ink:#FFFFFF; --sage-soft:#E5EEE8;
+  --lav:#5A4C99; --lav-soft:#EEEBF7;
+  --help:#A04E3E; --help-soft:#F6E8E3;
+  --page:#E9E6DF;
+  --round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121715; --surface:#1B2320; --ink:#E7EDE9; --muted:#9BA9A2; --line:#2B3531;
+    --sage:#8EC1A7; --sage-ink:#0F1A15; --sage-soft:#213029;
+    --lav:#B7ABEB; --lav-soft:#26223A;
+    --help:#E7A08F; --help-soft:#352420;
+    --page:#0B0E0D;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.stage{display:flex;gap:40px;justify-content:center;align-items:flex-start;padding:32px 16px;flex-wrap:wrap}
+
+/* phone */
+.phone{width:390px;height:844px;border-radius:52px;background:var(--bg);position:relative;overflow:hidden;
+  box-shadow:0 0 0 10px #1c1c1e,0 0 0 11px #3a3a3c,0 30px 60px rgba(0,0,0,.25);flex:none}
+.status{height:54px;display:flex;justify-content:space-between;align-items:center;padding:14px 32px 0;font-weight:600;font-size:16px;position:relative;z-index:5}
+.status .icons{display:flex;gap:6px;font-size:17px}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:124px;height:36px;border-radius:20px;background:#000;z-index:6}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;background:var(--bg)}
+.screen.on{display:flex}
+.scroll{flex:1;overflow-y:auto;padding:0 20px 120px}
+.scroll::-webkit-scrollbar{display:none}
+
+/* type */
+h1{font-family:var(--round);font-weight:700;font-size:30px;line-height:1.15;margin:4px 0 6px;letter-spacing:-.01em}
+h2{font-family:var(--round);font-weight:600;font-size:20px;margin:0}
+.eyebrow{font-size:13px;color:var(--muted);text-transform:none;letter-spacing:.01em}
+.sub{color:var(--muted);font-size:15px;line-height:1.45;margin:0}
+.section-title{font-size:13px;font-weight:600;color:var(--muted);margin:26px 4px 10px}
+
+/* top bar */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:6px 20px 8px}
+.help-pill{display:inline-flex;align-items:center;gap:6px;border:none;background:var(--help-soft);color:var(--help);
+  font:600 14px var(--sans);padding:8px 12px;border-radius:999px;cursor:pointer}
+.help-pill i{font-size:17px}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:none;background:var(--surface);color:var(--ink);font-size:20px;display:grid;place-items:center;cursor:pointer}
+
+/* cards */
+.card{background:var(--surface);border-radius:20px;padding:16px;border:1px solid var(--line)}
+.card + .card{margin-top:10px}
+.suggest{display:flex;gap:14px;align-items:center;background:var(--sage-soft);border:none;cursor:pointer;width:100%;text-align:left;color:var(--ink)}
+.suggest .play{width:48px;height:48px;border-radius:50%;background:var(--sage);color:var(--sage-ink);display:grid;place-items:center;font-size:22px;flex:none}
+.suggest .t{font:600 17px var(--round)}
+.suggest .m{font-size:14px;color:var(--muted);margin-top:2px}
+.row{display:flex;align-items:center;gap:12px}
+.tag{font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;background:var(--sage-soft);color:var(--sage)}
+.tag.lav{background:var(--lav-soft);color:var(--lav)}
+.thing .label{flex:1;font-size:16px;line-height:1.35}
+.chip{border:1px solid var(--line);background:transparent;color:var(--muted);font:500 13px var(--sans);padding:6px 10px;border-radius:999px;cursor:pointer}
+.check{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:transparent;cursor:pointer;color:var(--sage-ink);display:grid;place-items:center;font-size:16px;flex:none}
+.check.done{background:var(--sage);border-color:var(--sage)}
+.thing.done .label{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.done-list{font-size:14px;color:var(--muted);margin:8px 4px 0}
+
+/* tab bar */
+.tabbar{position:absolute;bottom:0;left:0;right:0;height:96px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(5,1fr);align-items:start;padding-top:8px;z-index:4}
+.tab{border:none;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;font:500 11px var(--sans);cursor:pointer;padding:4px 0}
+.tab i{font-size:25px}
+.tab.on{color:var(--sage)}
+.tab.now{margin-top:-22px;color:var(--ink)}
+.tab.now .disc{width:62px;height:62px;border-radius:50%;background:var(--sage);color:var(--sage-ink);display:grid;place-items:center;font-size:28px;
+  box-shadow:0 0 0 6px var(--bg)}
+.tab.now span{font-weight:600}
+
+/* sheet */
+.sheet{background:var(--bg)}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:4px auto 6px}
+.choices{display:grid;gap:10px;margin-top:18px}
+.choice{display:flex;align-items:center;gap:14px;width:100%;min-height:68px;padding:14px 16px;border-radius:18px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);font:600 18px var(--round);text-align:left;cursor:pointer}
+.choice i{font-size:26px;color:var(--sage);width:30px;text-align:center}
+.choice.safe{background:var(--help-soft);border-color:transparent;color:var(--help)}
+.choice.safe i{color:var(--help)}
+.choice:active,.btn:active{transform:scale(.98)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;border-radius:18px;border:none;cursor:pointer;
+  font:600 18px var(--round);background:var(--sage);color:var(--sage-ink)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.soft{background:var(--sage-soft);color:var(--sage)}
+.btn.help{background:var(--help);color:#fff}
+.btn.help-soft{background:var(--help-soft);color:var(--help)}
+.btn + .btn{margin-top:10px}
+.link{background:none;border:none;color:var(--muted);font:500 15px var(--sans);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:12px}
+
+/* breath player */
+.player{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 28px;text-align:center}
+.breath-wrap{width:280px;height:280px;display:grid;place-items:center;position:relative;margin:10px 0 28px}
+.breath-ring{position:absolute;inset:0;border-radius:50%;border:1.5px dashed var(--line)}
+.breath{width:150px;height:150px;border-radius:50%;background:var(--sage-soft);border:2px solid var(--sage);transform:scale(.6)}
+.cue{font:600 24px var(--round);min-height:62px;line-height:1.3}
+.dots{display:flex;gap:8px;justify-content:center;margin:12px 0 0}
+.dots span{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.dots span.on{background:var(--sage)}
+.player-foot{padding:0 20px 44px}
+
+/* timer */
+.timer{width:240px;height:240px;border-radius:50%;display:grid;place-items:center;margin:16px 0 26px;
+  background:conic-gradient(var(--sage) var(--p,0deg), var(--sage-soft) 0)}
+.timer .inner{width:212px;height:212px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font:700 52px var(--round);font-variant-numeric:tabular-nums}
+
+/* script */
+.script{font-family:Georgia,"New York",serif;font-size:24px;line-height:1.5;margin:20px 0;color:var(--ink)}
+.script-src{font-size:13px;color:var(--muted)}
+
+/* help */
+.help-head{padding:10px 24px 0}
+.help-list{padding:20px 20px 40px;display:grid;gap:10px}
+.help-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:18px;background:var(--surface);border:1px solid var(--line);
+  color:var(--ink);text-decoration:none;cursor:pointer;width:100%;text-align:left;font-family:var(--sans)}
+.help-row .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:var(--help-soft);color:var(--help);flex:none}
+.help-row .t{font:600 17px var(--round)}
+.help-row .m{font-size:14px;color:var(--muted);margin-top:2px}
+.help-row.primary{background:var(--help);border-color:var(--help);color:#fff}
+.help-row.primary .ic{background:rgba(255,255,255,.18);color:#fff}
+.help-row.primary .m{color:rgba(255,255,255,.85)}
+
+.placeholder{flex:1;display:grid;place-items:center;text-align:center;padding:40px;color:var(--muted)}
+.toast{position:absolute;left:50%;bottom:120px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);font:500 15px var(--sans);
+  padding:12px 18px;border-radius:14px;opacity:0;transition:.25s;z-index:20;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* notes panel */
+.notes{width:360px;max-width:100%;font-size:14px;line-height:1.55}
+.notes h3{font:700 22px var(--round);margin:0 0 4px}
+.notes .card{border-radius:16px}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 18px}
+.jump button{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 13px var(--sans);padding:7px 11px;border-radius:999px;cursor:pointer}
+.notes ol{padding-left:18px;margin:6px 0}
+.notes li{margin:4px 0}
+
+/* ---- v2: Me, profile, plan ---- */
+:root{--amber:#7A5B12;--amber-soft:#F4EBCF}
+@media (prefers-color-scheme: dark){:root{--amber:#E5C877;--amber-soft:#332B17}}
+.me-card{width:100%;text-align:left;cursor:pointer;color:var(--ink);font-family:var(--sans)}
+.plan-hero{background:var(--lav-soft);border:none}
+.plan-hero .t{font:700 20px var(--round)}
+.plan-hero .m{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.4}
+.meter{display:flex;gap:4px;margin:12px 0 4px}
+.meter span{flex:1;height:6px;border-radius:3px;background:color-mix(in srgb,var(--lav) 20%,transparent)}
+.meter span.on{background:var(--lav)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pill{font-size:13px;padding:6px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--ink)}
+.pill.add{cursor:pointer;color:var(--sage);border-style:dashed;background:transparent;font-family:var(--sans)}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.card-head .t{font:600 17px var(--round)}
+.card-head button{border:none;background:none;color:var(--sage);font:600 14px var(--sans);cursor:pointer;padding:0}
+.hint{font-size:13px;color:var(--muted);margin-top:10px;display:flex;gap:6px;line-height:1.4}
+.hint i{font-size:16px;flex:none;margin-top:1px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px;text-align:center;font-size:11px;color:var(--muted)}
+.week b{display:block;height:34px;border-radius:10px;margin-bottom:4px;background:transparent;border:1px dashed var(--line)}
+.week b.d1{background:var(--sage-soft);border:none}
+.week b.d2{background:color-mix(in srgb,var(--sage) 45%,var(--sage-soft));border:none}
+.week b.d3{background:var(--sage);border:none}
+.list-row{display:flex;align-items:center;gap:12px;padding:14px 4px;border:none;border-bottom:1px solid var(--line);background:none;width:100%;
+  text-align:left;color:var(--ink);font:500 16px var(--sans);cursor:pointer}
+.list-row:last-child{border-bottom:none}
+.list-row i.lead{font-size:22px;color:var(--sage);width:26px;text-align:center}
+.list-row .grow{flex:1}
+.list-row .m{font-size:13px;color:var(--muted);margin-top:2px}
+.list-row i.chev{color:var(--muted)}
+
+.seg{display:flex;gap:6px;overflow-x:auto;margin:16px -20px 4px;padding:0 20px}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 14px var(--sans);padding:8px 14px;border-radius:999px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.opt{display:flex;align-items:center;gap:12px;width:100%;padding:14px 14px;margin-top:8px;border-radius:16px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);font:400 16px/1.35 var(--sans);text-align:left;cursor:pointer}
+.opt .box{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;flex:none;color:var(--sage-ink);font-size:15px}
+.opt.on{border-color:var(--sage);background:var(--sage-soft)}
+.opt.on .box{background:var(--sage);border-color:var(--sage)}
+.opt.tender.on{border-color:var(--help);background:var(--help-soft)}
+.opt.tender.on .box{background:var(--help);border-color:var(--help)}
+.care{margin-top:10px;padding:14px;border-radius:16px;background:var(--help-soft);color:var(--ink);font-size:15px;line-height:1.45}
+.care .btn{min-height:46px;font-size:16px;margin-top:10px}
+.field{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:12px 14px;font:16px/1.4 var(--sans);resize:none}
+.field:focus{outline:2px solid var(--sage);outline-offset:1px}
+label.fl{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:16px 4px 6px}
+.steps{display:flex;gap:4px;margin:2px 0 14px}
+.steps span{flex:1;height:4px;border-radius:2px;background:var(--line)}
+.steps span.on{background:var(--sage)}
+.foot-row{display:flex;gap:10px}
+.foot-row .btn{margin:0}
+
+/* plan (use mode) */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:14px}
+.levels button{border:2px solid transparent;border-radius:14px;padding:10px 6px;font:600 14px var(--round);cursor:pointer;line-height:1.2}
+.levels .y{background:var(--amber-soft);color:var(--amber)}
+.levels .o{background:var(--lav-soft);color:var(--lav)}
+.levels .r{background:var(--help-soft);color:var(--help)}
+.levels button.on{border-color:currentColor}
+.letter{font-family:Georgia,"New York",serif;font-size:21px;line-height:1.5;margin:0}
+.letter-card{background:var(--lav-soft);border:none}
+.letter-card .from{font-size:13px;color:var(--lav);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.big-step{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:18px;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);font:600 19px var(--round);text-align:left;cursor:pointer;margin-top:8px}
+.big-step .n{width:34px;height:34px;border-radius:50%;background:var(--sage-soft);color:var(--sage);display:grid;place-items:center;font-size:16px;flex:none}
+.big-step.done{color:var(--muted)}
+.big-step.done .n{background:var(--sage);color:var(--sage-ink)}
+.person{display:flex;align-items:center;gap:12px}
+.person .av{width:44px;height:44px;border-radius:50%;background:var(--sage-soft);color:var(--sage);display:grid;place-items:center;font:700 17px var(--round);flex:none}
+.person .grow{flex:1}
+.person .t{font:600 17px var(--round)}
+.person .m{font-size:13px;color:var(--muted)}
+.round-act{width:44px;height:44px;border-radius:50%;border:none;background:var(--sage);color:var(--sage-ink);font-size:20px;display:grid;place-items:center;cursor:pointer}
+.round-act.soft{background:var(--sage-soft);color:var(--sage)}
+.crisis{background:var(--help-soft);border:none}
+.crisis .t{font:600 16px var(--round);color:var(--help)}
+
+
+/* ---- v3: Tools ---- */
+.filter{display:flex;gap:6px;overflow-x:auto;margin:16px -20px 0;padding:0 20px}
+.filter::-webkit-scrollbar{display:none}
+.filter button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 14px var(--sans);padding:8px 14px;border-radius:999px;cursor:pointer}
+.filter button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.saved-row{display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 4px}
+.saved-row::-webkit-scrollbar{display:none}
+.saved-card{flex:0 0 150px;min-height:112px;border-radius:18px;border:none;background:var(--sage-soft);color:var(--ink);text-align:left;padding:14px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}
+.saved-card i{font-size:22px;color:var(--sage)}
+.saved-card .t{font:600 15px/1.25 var(--round)}
+.saved-card .m{font-size:12px;color:var(--muted);margin-top:4px}
+.tool-row{display:flex;align-items:center;gap:12px;width:100%;padding:13px 4px;border:none;border-bottom:1px solid var(--line);background:none;color:var(--ink);text-align:left;cursor:pointer;font-family:var(--sans)}
+.tool-row:last-child{border-bottom:none}
+.tool-row .ic{width:40px;height:40px;border-radius:12px;background:var(--sage-soft);color:var(--sage);display:grid;place-items:center;font-size:20px;flex:none}
+.tool-row .grow{flex:1;min-width:0}
+.tool-row .t{font:600 16px var(--round)}
+.tool-row .m{font-size:13px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.for-you{font-size:11px;font-weight:600;color:var(--lav);background:var(--lav-soft);padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.src-tag{font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px}
+.src-dep{background:var(--sage-soft);color:var(--sage)} .src-anx{background:var(--lav-soft);color:var(--lav)} .src-spi{background:var(--amber-soft);color:var(--amber)}
+.heart{width:40px;height:40px;border-radius:50%;border:none;background:var(--surface);color:var(--muted);font-size:20px;display:grid;place-items:center;cursor:pointer}
+.heart.on{color:var(--help)}
+.how{counter-reset:s;margin:0;padding:0;list-style:none}
+.how li{counter-increment:s;display:flex;gap:12px;padding:10px 0;font-size:16px;line-height:1.45;border-bottom:1px solid var(--line)}
+.how li:last-child{border-bottom:none}
+.how li::before{content:counter(s);width:26px;height:26px;border-radius:50%;background:var(--sage-soft);color:var(--sage);font:600 13px var(--sans);display:grid;place-items:center;flex:none;margin-top:1px}
+.note-card{background:var(--lav-soft);border:none;font-size:15px;line-height:1.5}
+.note-card b{color:var(--lav)}
+.step-big{font:600 27px/1.35 var(--round);margin:0;text-align:left}
+.script-card{width:100%;text-align:left;cursor:pointer;color:var(--ink);font-family:var(--sans)}
+.script-card .t{font:600 16px var(--round)}
+.script-card .q{font:17px/1.5 Georgia,"New York",serif;margin-top:8px;color:var(--ink)}
+.script-card .q.clip{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted)}
+.fill{background:var(--amber-soft);color:var(--amber);border-radius:6px;padding:0 4px;font-family:var(--sans);font-size:.85em}
+
+
+/* ---- v4: Learn ---- */
+.remind{background:var(--lav-soft);border:none;padding:20px}
+.remind .q{font:20px/1.45 Georgia,"New York",serif;margin:8px 0 0;color:var(--ink)}
+.remind .from{font-size:12px;font-weight:600;color:var(--lav);display:flex;align-items:center;gap:6px}
+.topic{display:flex;gap:14px;align-items:center;width:100%;text-align:left;cursor:pointer;color:var(--ink);font-family:var(--sans)}
+.topic .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;flex:none}
+.topic .grow{flex:1}
+.topic .t{font:700 19px var(--round)}
+.topic .m{font-size:14px;color:var(--muted);margin-top:2px}
+.prog{height:4px;border-radius:2px;background:var(--line);margin-top:10px;overflow:hidden}
+.prog b{display:block;height:100%;background:var(--sage)}
+.art p{font-size:17px;line-height:1.6;margin:14px 0 0}
+.term{padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);margin-top:8px;font-size:15px;line-height:1.45}
+.term b{font-family:var(--round);font-size:16px;display:block;margin-bottom:2px}
+.cycle{margin-top:14px;position:relative}
+.cycle div{display:flex;gap:12px;align-items:flex-start;padding:10px 0;font-size:16px;line-height:1.45}
+.cycle span{width:30px;height:30px;border-radius:50%;background:var(--sage-soft);color:var(--sage);display:grid;place-items:center;font:600 14px var(--sans);flex:none}
+.cycle .back{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;padding:4px 0 0 42px}
+.pq{background:var(--lav-soft);border-radius:18px;padding:18px;margin-top:18px;font:19px/1.5 Georgia,"New York",serif}
+.isnot{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);font-size:17px;line-height:1.45}
+.isnot:last-child{border-bottom:none}
+.isnot i{color:var(--sage);font-size:20px;margin-top:1px}
+
+
+/* ---- v5 polish ---- */
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--sage);outline-offset:2px}
+.chip{min-height:36px;padding:7px 12px;font-size:14px;display:inline-flex;align-items:center;gap:4px}
+.tab{min-height:48px}
+.btn,.choice,.opt,.big-step,.help-row,.tool-row,.list-row,.card.suggest,.topic{-webkit-tap-highlight-color:transparent;transition:transform .12s ease,background-color .15s ease}
+.opt:active,.big-step:active,.help-row:active,.tool-row:active,.topic:active,.saved-card:active{transform:scale(.985)}
+.screen.on{animation:fadein .18s ease}
+@keyframes fadein{from{opacity:.4}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.screen.on{animation:none}.btn,.opt,.big-step{transition:none}}
+
+
+/* ---- shared review build ---- */
+.review{background:var(--lav-soft);border:none;margin-bottom:4px}
+.review strong{font:700 17px var(--round);color:var(--lav)}
+@media (max-width:520px){
+  .stage{padding:0;gap:0;display:block}
+  .phone{width:100vw;height:100dvh;border-radius:0;box-shadow:none}
+  .island{display:none}
+  .notes{width:auto;padding:24px 16px 40px}
+}
+
+@media (prefers-reduced-motion: reduce){ .breath{transition:none !important} }
+
+/* ---- Liquid Glass: floating navigation and controls only ---- */
+:root{
+  --glass-fill:rgba(255,255,255,.68);
+  --glass-fill-strong:rgba(255,255,255,.88);
+  --glass-stroke:rgba(255,255,255,.72);
+  --glass-highlight:rgba(255,255,255,.92);
+  --glass-shadow:0 12px 32px rgba(34,48,42,.14),0 2px 8px rgba(34,48,42,.06);
+  --glass-blur:22px;
+  --glass-saturate:165%;
+  --glass-sage:rgba(62,107,87,.94);
+  --glass-sage-ink:#FFFFFF;
+  --glass-lav:rgba(90,76,153,.94);
+  --glass-lav-ink:#FFFFFF;
+  --glass-help:rgba(246,232,227,.96);
+  --glass-help-ink:#A04E3E;
+  --glass-solid:rgba(255,255,255,.96);
+  --glass-solid-strong:#FFFFFF;
+  --glass-sage-solid:#3E6B57;
+  --glass-lav-solid:#5A4C99;
+  --glass-help-solid:#F6E8E3;
+  --help-action:#A04E3E;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --glass-fill:rgba(11,14,13,.52);
+    --glass-fill-strong:rgba(11,14,13,.80);
+    --glass-stroke:rgba(231,237,233,.16);
+    --glass-highlight:rgba(255,255,255,.20);
+    --glass-shadow:0 14px 34px rgba(0,0,0,.38),0 2px 8px rgba(0,0,0,.24);
+    --glass-sage:rgba(142,193,167,.94);
+    --glass-sage-ink:#0F1A15;
+    --glass-lav:rgba(112,96,181,.96);
+    --glass-lav-ink:#FFFFFF;
+    --glass-help:rgba(53,36,32,.96);
+    --glass-help-ink:#E7A08F;
+    --glass-solid:rgba(18,23,21,.96);
+    --glass-solid-strong:#121715;
+    --glass-sage-solid:#8EC1A7;
+    --glass-lav-solid:#7060B5;
+    --glass-help-solid:#352420;
+  }
+}
+.glass{
+  background:var(--glass-fill);
+  border:1px solid var(--glass-stroke);
+  backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow:inset 0 1px 0 var(--glass-highlight),var(--glass-shadow);
+  transition:transform .16s ease,box-shadow .16s ease,background-color .16s ease,height .2s ease,padding .2s ease;
+}
+button.glass:active,a.glass:active,.tab.now:active .disc{
+  transform:scale(.97);
+  box-shadow:inset 0 2px 0 var(--glass-highlight),0 8px 22px rgba(34,48,42,.12);
+}
+button.glass:focus-visible,a.glass:focus-visible{outline:3px solid var(--sage);outline-offset:3px}
+
+/* Top bars float above their solid content instead of forming a second material layer. */
+.topbar{position:absolute;top:54px;left:12px;right:12px;z-index:8;min-height:48px;padding:4px 0;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.topbar>.eyebrow.glass{display:inline-flex;align-items:center;min-height:40px;padding:8px 12px;border-radius:999px;color:var(--ink)}
+.icon-btn.glass,.heart.glass{background:var(--glass-fill-strong);color:var(--ink)}
+.help-pill.glass{background:var(--glass-help);color:var(--glass-help-ink);border-color:color-mix(in srgb,var(--help) 18%,var(--glass-stroke));box-shadow:inset 0 1px 0 var(--glass-highlight),0 8px 22px rgba(34,48,42,.10)}
+.topbar .chip.glass{background:var(--glass-fill-strong);color:var(--ink)}
+.screen .scroll{padding-top:64px;padding-bottom:126px}
+.screen>.player{padding-top:64px}
+.sheet{border-radius:32px 32px 0 0;overflow:hidden;border-top:1px solid var(--line)}
+.sheet .topbar{top:64px}
+.sheet .scroll{padding-top:74px}
+.grab.glass{width:44px;height:6px;min-height:0;padding:0;border-radius:999px;background:var(--glass-fill-strong);border:0;box-shadow:inset 0 1px 0 var(--glass-highlight),0 2px 5px rgba(34,48,42,.12)}
+
+/* A single inset capsule; labels collapse without changing navigation order. */
+.tabbar.glass{
+  left:12px;right:12px;bottom:16px;height:78px;padding:8px 8px 10px;
+  border:1px solid var(--glass-stroke);border-radius:28px;background:var(--glass-fill-strong);
+  align-items:start;overflow:visible;
+}
+.tab{position:relative;transition:color .18s ease,gap .18s ease;min-width:0}
+.tab>span:not(.disc){display:block;line-height:14px;opacity:1;transform:translateY(0);transition:opacity .16s ease,transform .16s ease,height .16s ease}
+.tab.now .disc.glass{
+  background:var(--glass-sage);color:var(--glass-sage-ink);border-color:color-mix(in srgb,var(--sage) 36%,var(--glass-stroke));
+  box-shadow:inset 0 1px 0 var(--glass-highlight),0 8px 20px rgba(34,48,42,.20),0 0 0 5px var(--bg);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  transition:transform .16s ease,width .2s ease,height .2s ease,font-size .2s ease,box-shadow .16s ease;
+}
+.tabbar.compact{height:56px;padding-top:4px;padding-bottom:4px;border-radius:24px}
+.tabbar.compact .tab{gap:0}
+.tabbar.compact .tab>span:not(.disc){opacity:0;transform:translateY(4px);height:0;overflow:hidden}
+.tabbar.compact .tab.now{margin-top:-14px}
+.tabbar.compact .tab.now .disc{width:48px;height:48px;font-size:23px}
+
+/* Floating actions use tint; content cards and their ordinary actions remain solid. */
+.player-foot{position:relative;z-index:3}
+.player-foot .btn.glass,#rightnow .btn.glass{border-radius:999px;background:var(--glass-sage);color:var(--glass-sage-ink);border-color:color-mix(in srgb,var(--sage) 30%,var(--glass-stroke))}
+.player-foot .btn.ghost.glass{background:var(--glass-fill-strong);color:var(--ink);border-color:var(--glass-stroke)}
+.primary-lav.glass{border-radius:999px;background:var(--glass-lav);color:var(--glass-lav-ink);border-color:color-mix(in srgb,var(--lav) 30%,var(--glass-stroke))}
+.help-row.primary,.btn.help{background:var(--help-action);border-color:var(--help-action);color:#FFFFFF}
+.help-row.primary .m{color:#FFFFFF}
+.toast.glass{bottom:112px;max-width:calc(100% - 40px);border-radius:999px;background:var(--glass-fill-strong);color:var(--ink);text-align:center;white-space:normal;line-height:1.35}
+.breath{background:color-mix(in srgb,var(--sage) 22%,var(--sage-soft));box-shadow:inset 0 1px 0 var(--glass-highlight),inset 0 0 24px color-mix(in srgb,var(--sage) 10%,transparent)}
+
+.glass-review-toggle{display:flex;align-items:center;gap:9px;margin:14px 0 0;font:600 13px var(--sans);color:var(--ink);cursor:pointer;width:max-content}
+.glass-review-toggle input{width:18px;height:18px;margin:0;accent-color:var(--sage)}
+.glass-review-toggle input:focus-visible{outline:3px solid var(--sage);outline-offset:3px}
+html.app .glass-review-toggle{display:none}
+
+:root.reduce-glass{
+  --glass-fill:var(--glass-solid);--glass-fill-strong:var(--glass-solid-strong);
+  --glass-sage:var(--glass-sage-solid);--glass-lav:var(--glass-lav-solid);--glass-help:var(--glass-help-solid);
+  --glass-blur:0px;--glass-saturate:100%;
+}
+@media (prefers-reduced-transparency: reduce){
+  :root{
+    --glass-fill:var(--glass-solid);--glass-fill-strong:var(--glass-solid-strong);
+    --glass-sage:var(--glass-sage-solid);--glass-lav:var(--glass-lav-solid);--glass-help:var(--glass-help-solid);
+    --glass-blur:0px;--glass-saturate:100%;
+  }
+}
+@media (prefers-contrast: more){
+  :root{
+    --glass-fill:var(--surface);--glass-fill-strong:var(--surface);
+    --glass-sage:var(--glass-sage-solid);--glass-lav:var(--glass-lav-solid);--glass-help:var(--glass-help-solid);
+  }
+  .glass{border-color:color-mix(in srgb,var(--ink) 40%,transparent)}
+}
+@media (prefers-reduced-motion: reduce){
+  .glass,.tab,.tab>span:not(.disc),.tab.now .disc.glass{transition:none !important}
+  button.glass:active,a.glass:active,.tab.now:active .disc{transform:none}
+  .tabbar.compact{height:78px;padding:8px 8px 10px;border-radius:28px}
+  .tabbar.compact .tab{gap:3px}
+  .tabbar.compact .tab>span:not(.disc){opacity:1;transform:none;height:auto;overflow:visible}
+  .tabbar.compact .tab.now{margin-top:-22px}
+  .tabbar.compact .tab.now .disc{width:62px;height:62px;font-size:28px}
+}
+
+/* Full-screen installed app; rebuilt into app.html from this same source. */
+html.app,html.app body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(--bg)}
+html.app .stage{display:block;padding:0}
+html.app .phone{width:100vw;height:100dvh;min-height:100vh;border-radius:0;box-shadow:none}
+html.app .island,html.app .notes{display:none}
+html.app .status{height:calc(54px + env(safe-area-inset-top));padding-top:calc(14px + env(safe-area-inset-top))}
+html.app .topbar{top:calc(54px + env(safe-area-inset-top))}
+html.app .sheet .topbar{top:calc(64px + env(safe-area-inset-top))}
+html.app .screen .scroll{padding-top:calc(64px + env(safe-area-inset-top));padding-bottom:calc(126px + env(safe-area-inset-bottom))}
+html.app .sheet .scroll{padding-top:calc(74px + env(safe-area-inset-top))}
+html.app .screen>.player{padding-top:calc(64px + env(safe-area-inset-top))}
+html.app .tabbar.glass{bottom:calc(12px + env(safe-area-inset-bottom))}
+html.app .player-foot{padding-bottom:calc(44px + env(safe-area-inset-bottom)) !important}
+html.app .toast.glass{bottom:calc(112px + env(safe-area-inset-bottom))}
+@media (max-width:520px){
+  .tabbar.glass{bottom:calc(12px + env(safe-area-inset-bottom))}
+  .screen .scroll{padding-bottom:calc(126px + env(safe-area-inset-bottom))}
+}
+
+/* ================================================================
+   Luminous Jade & Plum design system (v6)
+   Overrides the earlier palette through the same tokens, so every
+   screen picks it up. No orange anywhere: the old coral "help" and
+   amber tokens are remapped to plum and teal.
+   ================================================================ */
+:root{
+  --bg:#F0F5F2; --surface:#FFFFFF; --page:#DCE6E0;
+  --ink:#15241D; --muted:#485850; --faint:#5E6F66; --line:#DCE7E1;
+  --sage:#1B4D3E; --sage-press:#143B2F; --sage-ink:#FFFFFF; --sage-soft:#E1EFEA; --sage-ring:#D2E4DC; --tile-on:#F4F8F6;
+  --lav:#36203C; --lav-soft:#F1EAF2;
+  --help:#36203C; --help-soft:#F1EAF2; --help-action:#36203C;
+  --amber:#2E5E6B; --amber-soft:#E2EEF1;
+  --serif:'Newsreader','Fraunces','Lora',Georgia,serif;
+  --sans:'Inter','Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --round:var(--sans);
+  --shadow-card:0 4px 20px -2px rgba(25,45,35,.06);
+  --shadow-lift:0 10px 28px -6px rgba(25,45,35,.14);
+  --glass-fill:rgba(255,255,255,.82); --glass-fill-strong:rgba(255,255,255,.82);
+  --glass-stroke:rgba(255,255,255,.5); --glass-highlight:rgba(255,255,255,.9);
+  --glass-shadow:0 10px 30px rgba(20,40,30,.10); --glass-blur:16px; --glass-saturate:150%;
+  --glass-sage:#1B4D3E; --glass-sage-ink:#FFFFFF; --glass-lav:#36203C; --glass-lav-ink:#FFFFFF;
+  --glass-help:#36203C; --glass-help-ink:#FFFFFF;
+  --glass-solid:#FFFFFF; --glass-solid-strong:#FFFFFF;
+  --glass-sage-solid:#1B4D3E; --glass-lav-solid:#36203C; --glass-help-solid:#36203C;
+}
+/* Dark mode keeps the same system, deepened for night use. */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0F1A16; --surface:#16241F; --page:#08110D;
+    --ink:#E6EFEA; --muted:#AEBDB5; --faint:#8C9D95; --line:#25362F;
+    --sage:#8FC9B2; --sage-press:#A7D7C4; --sage-ink:#0B1712; --sage-soft:#1D3229; --sage-ring:#2A4238; --tile-on:#1A2B24;
+    --lav:#DCC4E3; --lav-soft:#2A1F2E;
+    --help:#E8D3EE; --help-soft:#2A1F2E; --help-action:#5A3563;
+    --amber:#9ACFDB; --amber-soft:#192D32;
+    --shadow-card:0 4px 20px -2px rgba(0,0,0,.35); --shadow-lift:0 10px 28px -6px rgba(0,0,0,.5);
+    --glass-fill:rgba(22,36,31,.82); --glass-fill-strong:rgba(22,36,31,.86);
+    --glass-stroke:rgba(255,255,255,.08); --glass-highlight:rgba(255,255,255,.10);
+    --glass-shadow:0 10px 30px rgba(0,0,0,.45);
+    --glass-sage:#8FC9B2; --glass-sage-ink:#0B1712; --glass-lav:#5A3563; --glass-help:#5A3563;
+    --glass-solid:#16241F; --glass-solid-strong:#16241F;
+    --glass-sage-solid:#8FC9B2; --glass-lav-solid:#5A3563; --glass-help-solid:#5A3563;
+  }
+}
+
+/* ---- Typography: editorial serif for headings, Inter for UI ---- */
+body,.phone{font-family:var(--sans);color:var(--ink)}
+h1{font:500 32px/1.12 var(--serif);letter-spacing:-.015em;color:var(--ink);margin:6px 0 8px}
+h2{font:500 23px/1.2 var(--serif);color:var(--ink)}
+.notes h3{font:500 26px/1.15 var(--serif)}
+.section-title{font:500 21px/1.2 var(--serif);color:var(--ink);margin:30px 2px 12px;letter-spacing:-.005em}
+.sub{color:var(--muted);font-size:15.5px;line-height:1.5}
+.eyebrow{font:600 11.5px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.topbar>.eyebrow.glass{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0 4px;color:var(--faint)}
+.script,.letter,.pq,.remind .q,.step-big,.cue{font-family:var(--serif)}
+.script{font-size:26px;line-height:1.45;font-weight:400}
+.step-big{font-weight:500}
+.cue{font-weight:500;font-size:27px;color:var(--sage)}
+.card-head .t,.plan-hero .t,.topic .t,.person .t{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:-.005em}
+.suggest .t,.tool-row .t,.help-row .t,.saved-card .t,.choice,.big-step,.btn,.tab,.chip,.pill,.opt{font-family:var(--sans)}
+.suggest .t,.tool-row .t,.help-row .t,.saved-card .t{font-weight:600}
+.status{color:var(--ink)}
+
+/* ---- Surfaces ---- */
+body{background:var(--page)}
+.phone,.screen,.sheet{background:var(--bg)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-card)}
+.card.suggest,.suggest{background:var(--sage-soft);border:1px solid transparent;box-shadow:none}
+.suggest .play{background:var(--sage);color:var(--sage-ink)}
+.tag{background:var(--sage-soft);color:var(--sage);font:600 11.5px var(--sans);padding:4px 10px}
+.tag.lav{background:var(--lav-soft);color:var(--lav)}
+
+/* ---- Global "Get help": solid plum pill, white lifebuoy ---- */
+.help-pill,.help-pill.glass{
+  display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:9px 16px;border-radius:9999px;
+  background:var(--help-action);color:#FFFFFF;border:1px solid transparent;
+  font:600 14.5px var(--sans);box-shadow:0 6px 16px -4px rgba(54,32,60,.35);
+  backdrop-filter:none;-webkit-backdrop-filter:none}
+.help-pill i{color:#FFFFFF;font-size:18px}
+.help-pill:active{transform:scale(.97)}
+.icon-btn,.icon-btn.glass,.heart,.heart.glass{width:44px;height:44px;background:var(--glass-fill);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow-card)}
+
+/* ---- Bottom navigation: floating frosted pill dock ---- */
+.tabbar,.tabbar.glass{
+  left:14px;right:14px;bottom:16px;height:74px;padding:9px 10px;border-radius:9999px;
+  background:var(--glass-fill);border:1px solid var(--glass-stroke);box-shadow:var(--glass-shadow);
+  backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  display:grid;grid-template-columns:repeat(5,1fr);align-items:center;overflow:visible}
+.tab{height:56px;justify-content:center;gap:3px;border-radius:9999px;color:var(--faint);font:600 11px var(--sans);margin:0 1px}
+.tab i{font-size:23px}
+.tab.on{color:var(--sage);background:var(--sage-soft)}
+.tab.now{margin-top:-24px;background:none;color:var(--ink);height:auto}
+.tab.now .disc,.tab.now .disc.glass{width:60px;height:60px;background:var(--sage);color:var(--sage-ink);border:0;
+  box-shadow:0 10px 22px -4px rgba(27,77,62,.45),0 0 0 4px var(--glass-fill-strong)}
+.tab.now span:not(.disc){font-weight:600;color:var(--sage)}
+.tabbar.compact{height:58px;padding:5px 10px;border-radius:9999px}
+.tabbar.compact .tab{height:46px}
+.tabbar.compact .tab.now{margin-top:-14px}
+
+/* ---- Buttons ---- */
+.btn{border-radius:9999px;min-height:54px;font:600 16.5px var(--sans);background:var(--sage);color:var(--sage-ink);box-shadow:0 8px 18px -8px rgba(27,77,62,.55)}
+.btn:hover{background:var(--sage-press)}
+.btn.soft{background:var(--sage-soft);color:var(--sage);box-shadow:none}
+.btn.soft:hover{background:var(--sage-ring)}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--sage);background:var(--tile-on)}
+.btn.help,.help-row.primary{background:var(--help-action);border-color:var(--help-action);color:#FFFFFF;box-shadow:0 8px 18px -8px rgba(54,32,60,.6)}
+.btn.help-soft{background:var(--help-soft);color:var(--help);box-shadow:none}
+.player-foot .btn.glass,#rightnow .btn.glass{background:var(--sage);color:var(--sage-ink);border:0}
+.player-foot .btn.ghost.glass{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.primary-lav,.primary-lav.glass{background:var(--lav)!important;color:#FFFFFF!important;border:0}
+.link{color:var(--sage);font:600 15px var(--sans);text-decoration:none}
+.link:hover{text-decoration:underline}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 13px var(--sans);border-radius:9999px;min-height:36px}
+.chip:hover{border-color:var(--sage);color:var(--sage)}
+.pill{background:var(--tile-on);border-color:var(--line)}
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--sage) 45%,transparent);outline-offset:2px}
+
+/* ---- Right now: triage tiles ---- */
+.choices{grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.choice{flex-direction:column;align-items:flex-start;justify-content:space-between;gap:16px;min-height:122px;padding:16px;border-radius:20px;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-card);font:600 15.5px/1.3 var(--sans);color:var(--ink)}
+.choice i{width:40px;height:40px;border-radius:50%;background:var(--sage-soft);color:var(--sage);display:grid;place-items:center;font-size:20px}
+.choice:hover{border-color:var(--sage);background:var(--tile-on)}
+.choice.safe{background:var(--lav-soft);border-color:transparent;color:var(--lav)}
+.choice.safe i{background:var(--help-action);color:#FFFFFF}
+
+/* ---- Selectable rows, filters, fields ---- */
+.opt{border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.opt:hover{border-color:var(--sage)}
+.opt.on{border-color:var(--sage);background:var(--tile-on)}
+.opt.on .box{background:var(--sage);border-color:var(--sage)}
+.opt.tender.on{border-color:var(--lav);background:var(--lav-soft)}
+.opt.tender.on .box{background:var(--lav);border-color:var(--lav)}
+.seg button,.filter button,.jump button{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 13.5px var(--sans);min-height:38px;border-radius:9999px}
+.seg button.on,.filter button.on{background:var(--sage);color:var(--sage-ink);border-color:var(--sage)}
+.field{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:14px 16px;font-family:var(--sans)}
+.field:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 4px color-mix(in srgb,var(--sage) 16%,transparent)}
+.check{border-color:var(--line)}
+.check.done{background:var(--sage);border-color:var(--sage)}
+
+/* ---- Breathing and timers: jade rings ---- */
+.breath-ring{border:1.5px solid color-mix(in srgb,var(--sage) 35%,transparent);
+  box-shadow:inset 0 0 0 24px var(--bg),inset 0 0 0 25.5px color-mix(in srgb,var(--sage) 28%,transparent),inset 0 0 0 50px var(--bg),inset 0 0 0 51.5px color-mix(in srgb,var(--sage) 22%,transparent);
+  background:radial-gradient(circle,var(--sage-soft) 0,var(--bg) 70%)}
+.breath{background:var(--surface);border:2px solid var(--sage);box-shadow:0 12px 30px -8px rgba(27,77,62,.28)}
+.dots span{background:var(--sage-ring)} .dots span.on{background:var(--sage)}
+.timer{background:conic-gradient(var(--sage) var(--p,0deg),var(--sage-ring) 0)}
+.timer .inner{background:var(--bg);font:600 52px var(--sans);color:var(--ink)}
+.steps span{background:var(--sage-ring)} .steps span.on{background:var(--sage)}
+
+/* ---- First Aid Plan levels and steps ---- */
+.levels{gap:8px}
+.levels button{border:1px solid transparent;border-radius:18px;padding:14px 8px;font:600 14px/1.25 var(--sans);text-align:left}
+.levels .y,.levels .o{background:var(--sage-soft);color:var(--sage)}
+.levels .r{background:var(--lav-soft);color:var(--lav)}
+.levels .y.on,.levels .o.on{background:var(--sage);color:var(--sage-ink);border-color:var(--sage)}
+.levels .r.on{background:var(--help-action);color:#FFFFFF;border-color:var(--help-action)}
+.big-step{border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:var(--shadow-card);font:600 16.5px var(--sans)}
+.big-step .n{font:500 17px var(--serif);background:var(--sage-soft);color:var(--sage)}
+.big-step.done .n{background:var(--sage);color:var(--sage-ink)}
+.plan-hero{background:var(--lav-soft)}
+.crisis{background:var(--help-soft)}
+.crisis .t{color:var(--help)}
+.help-row{border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-card)}
+.help-row .ic{background:var(--lav-soft);color:var(--lav)}
+.help-row.primary .ic{background:rgba(255,255,255,.16);color:#FFFFFF}
+.round-act{background:var(--sage);color:var(--sage-ink)}
+.round-act.soft{background:var(--sage-soft);color:var(--sage)}
+.person .av{background:var(--sage-soft);color:var(--sage);font-family:var(--serif)}
+
+/* ---- Lists, tools, learn ---- */
+.tool-row .ic,.saveopt .ic{background:var(--sage-soft);color:var(--sage)}
+.saved-card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-card)}
+.list-row i.lead{color:var(--sage)}
+.for-you{background:var(--lav-soft);color:var(--lav)}
+.toast,.toast.glass{background:var(--ink);color:var(--bg);border:0;box-shadow:var(--shadow-lift)}
+.review{background:var(--lav-soft)}
+.review strong{font:500 19px var(--serif);color:var(--lav)}
+.help-pill,.help-pill.glass{white-space:nowrap;flex:none}
+.topbar{gap:12px}
+.topbar>.eyebrow{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (prefers-reduced-motion: reduce){.help-pill:active{transform:none}}
+
+/* ---- iPhone: Add to Home Screen tip (app.html only) ---- */
+.a2hs{display:none}
+html.app .a2hs{position:absolute;left:14px;right:14px;bottom:calc(104px + env(safe-area-inset-bottom));z-index:15;background:var(--ink);color:var(--bg);
+  border-radius:20px;padding:14px 46px 14px 16px;font:400 14px/1.45 var(--sans);box-shadow:var(--shadow-lift)}
+html.app .a2hs.show{display:block}
+.a2hs b{font-weight:600}
+.a2hs .x{position:absolute;top:8px;right:8px;width:36px;height:36px;border:none;border-radius:50%;background:transparent;color:var(--bg);font-size:18px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="stage">
+
+<div class="phone" id="phone">
+  <div class="island"></div>
+
+  <!-- TODAY -->
+  <section class="screen on" id="today">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar">
+      <span class="eyebrow glass">Thursday, November 5</span>
+      <button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
+    </div>
+    <div class="scroll">
+      <h1>Opening this counts.</h1>
+      <p class="sub">You don't have to do everything today. One small thing is enough.</p>
+
+      <div class="section-title">Suggested for you</div>
+      <button class="card suggest" onclick="startBreath('Physiological sigh')">
+        <span class="play"><i class="ti ti-player-play"></i></span>
+        <span><div class="t">Physiological sigh</div><div class="m">1 minute · when your chest feels tight</div></span>
+      </button>
+
+      <div class="section-title">Today's small things</div>
+      <div class="card">
+        <div class="row thing" id="pleasure">
+          <button class="check" onclick="toggleDone(this)" aria-label="Mark done"><i class="ti ti-check"></i></button>
+          <div class="label"><span class="tag">Something you enjoy</span><div id="pleasure-text" style="margin-top:6px">Listen to one song you used to love</div></div>
+          <button class="chip" onclick="smaller('pleasure')">Smaller</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row thing" id="mastery">
+          <button class="check" onclick="toggleDone(this)" aria-label="Mark done"><i class="ti ti-check"></i></button>
+          <div class="label"><span class="tag">Something you finish</span><div id="mastery-text" style="margin-top:6px">Wash the dishes</div></div>
+          <button class="chip" onclick="smaller('mastery')">Smaller</button>
+        </div>
+      </div>
+      <p class="done-list"><i class="ti ti-circle-check"></i> Already done today: opened the window</p>
+
+      <div class="section-title">Waiting for later</div>
+      <div class="card">
+        <div class="row"><div style="flex:1"><span class="tag lav">Worry window · 5:00 pm</span>
+          <div style="font-size:15px;color:var(--muted);margin-top:6px" id="worry-count"></div></div>
+          <button class="chip" onclick="parkWorry()"><i class="ti ti-plus"></i> Park a worry</button></div>
+        <button class="link" style="padding:10px 0 0;font-size:14px" onclick="openWindow()">Open the window early</button>
+      </div>
+    </div>
+
+    <nav class="tabbar glass">
+      <button class="tab on" onclick="go('today')"><i class="ti ti-sun"></i><span>Today</span></button>
+      <button class="tab" onclick="go('tools')"><i class="ti ti-tools"></i><span>Tools</span></button>
+      <button class="tab now" onclick="go('rightnow')"><span class="disc glass"><i class="ti ti-wind"></i></span><span>Right now</span></button>
+      <button class="tab" onclick="go('me')"><i class="ti ti-user-circle"></i><span>Me</span></button>
+      <button class="tab" onclick="go('learn')"><i class="ti ti-book-2"></i><span>Learn</span></button>
+    </nav>
+  </section>
+
+  <!-- RIGHT NOW -->
+  <section class="screen sheet" id="rightnow">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="grab glass"></div>
+    <div class="topbar">
+      <button class="icon-btn glass" onclick="go('today')" aria-label="Close"><i class="ti ti-x"></i></button>
+      <button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
+    </div>
+    <div class="scroll" style="padding-bottom:30px">
+      <h1>What's happening?</h1>
+      <p class="sub">Pick the closest one. You don't have to explain.</p>
+      <div class="choices">
+        <button class="choice" onclick="startBreath('Physiological sigh')"><i class="ti ti-heartbeat"></i>My body is racing</button>
+        <button class="choice" onclick="showScript('thoughts')"><i class="ti ti-refresh"></i>My thoughts won't stop</button>
+        <button class="choice" onclick="startTimer()"><i class="ti ti-bed"></i>I can't get started</button>
+        <button class="choice" onclick="showScript('critic')"><i class="ti ti-heart-handshake"></i>I'm being hard on myself</button>
+        <button class="choice" onclick="showScript('sleep')"><i class="ti ti-moon"></i>I can't sleep</button>
+        <button class="choice safe" onclick="go('help')"><i class="ti ti-lifebuoy"></i>I don't feel safe</button>
+      </div>
+      <div style="margin-top:18px"><button class="btn glass" onclick="startBreath('Just breathe')"><i class="ti ti-wind"></i>Just help me breathe</button></div>
+    </div>
+  </section>
+
+  <!-- BREATH PLAYER -->
+  <section class="screen" id="breath">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar">
+      <span class="eyebrow glass" id="breath-title">Physiological sigh</span>
+      <button class="help-pill glass" onclick="stopAll();go('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
+    </div>
+    <div class="player">
+      <div class="breath-wrap"><div class="breath-ring"></div><div class="breath" id="circle"></div></div>
+      <div class="cue" id="cue">Get comfortable</div>
+      <p class="sub">Eyes closed is fine. Your phone will tap gently with each step.</p>
+      <div class="dots" id="dots"><span></span><span></span><span></span></div>
+    </div>
+    <div class="player-foot">
+      <button class="btn ghost" onclick="stopAll();go('checkin')">Stop here — that counts</button>
+      <div style="text-align:center"><button class="link" onclick="stopAll();go('rightnow')">Try a different one</button></div>
+    </div>
+  </section>
+
+  <!-- TWO-MINUTE START -->
+  <section class="screen" id="timer">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar">
+      <span class="eyebrow glass">Two-minute start</span>
+      <button class="help-pill glass" onclick="stopAll();go('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
+    </div>
+    <div class="player">
+      <h2 id="timer-head">Pick one thing. Do only the first two minutes.</h2>
+      <div class="timer" id="ring"><div class="inner" id="clock">2:00</div></div>
+      <p class="sub" id="timer-sub">When the timer ends, you're allowed to stop. Stopping counts as a complete success.</p>
+    </div>
+    <div class="player-foot">
+      <button class="btn" id="timer-btn" onclick="runTimer()"><i class="ti ti-player-play"></i>Start two minutes</button>
+      <button class="btn ghost" onclick="stopAll();go('checkin')">Stop here — that counts</button>
+    </div>
+  </section>
+
+  <!-- SCRIPT -->
+  <section class="screen" id="script">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar">
+      <button class="icon-btn glass" onclick="back()" aria-label="Back"><i class="ti ti-chevron-left"></i></button>
+      <button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
+    </div>
+    <div class="scroll" style="padding-bottom:20px;display:flex;flex-direction:column;justify-content:center">
+      <span class="eyebrow" id="script-label">Say this to yourself, slowly</span>
+      <p class="script" id="script-text"></p>
+      <span class="script-src" id="script-src"></span>
+    </div>
+    <div class="player-foot">
+      <button class="btn" onclick="startBreath('Breathe with it')"><i class="ti ti-wind"></i>Breathe with it</button>
+      <button class="btn ghost" id="script-alt"></button>
+    </div>
+  </section>
+
+  <!-- CHECK-IN -->
+  <section class="screen" id="checkin">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><span></span><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="player" id="checkin-q">
+      <h1 style="text-align:center">Did that help,<br>even a little?</h1>
+      <p class="sub">No right answer. This just helps the app learn what works for you.</p>
+      <div style="width:100%;margin-top:28px">
+        <button class="btn soft" onclick="answer('yes')">Yes</button>
+        <button class="btn soft" onclick="answer('bit')">A bit</button>
+        <button class="btn ghost" onclick="answer('no')">Not really</button>
+      </div>
+    </div>
+    <div class="player" id="checkin-a" style="display:none">
+      <h1 style="text-align:center" id="a-head"></h1>
+      <p class="sub" id="a-sub"></p>
+      <div style="width:100%;margin-top:28px" id="a-actions"></div>
+    </div>
+  </section>
+
+
+  <!-- PARK A WORRY -->
+  <section class="screen sheet" id="park">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="grab glass"></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="back()" aria-label="Close"><i class="ti ti-x"></i></button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll" style="padding-bottom:30px">
+      <h1 id="park-head">Park it for later</h1>
+      <p class="sub" id="park-sub">A few words is enough. It'll be waiting at 5:00 pm, so you don't have to hold it until then.</p>
+      <textarea class="field" id="park-in" rows="3" style="margin-top:18px;font-size:18px" placeholder="Worry about…"></textarea>
+      <button class="btn" style="margin-top:12px" onclick="saveWorry()"><i class="ti ti-clock-pause"></i>Save it for 5:00 pm</button>
+      <div class="section-title">Already waiting</div>
+      <div id="park-list"></div>
+      <p class="hint" style="margin-top:14px"><i class="ti ti-info-circle"></i><span>From <i>When Anxiety Runs the Show</i>: worry postponement teaches the brain that it doesn't have to respond to every anxious thought right away.</span></p>
+    </div>
+  </section>
+
+  <!-- WORRY WINDOW -->
+  <section class="screen" id="window">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="back()" aria-label="Back"><i class="ti ti-chevron-left"></i></button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll" style="padding-bottom:30px">
+      <span class="eyebrow">Your worry window · 15 minutes</span>
+      <h1>Now you can look at them.</h1>
+      <p class="sub">One at a time. Many will feel smaller than they did earlier.</p>
+      <div id="win-list"></div>
+      <button class="btn ghost" style="margin-top:18px" onclick="closeWindow()">Close the window</button>
+    </div>
+  </section>
+
+  <!-- GET HELP -->
+  <section class="screen" id="help">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="back()" aria-label="Back"><i class="ti ti-chevron-left"></i></button><span></span></div>
+    <div class="scroll" style="padding-right:0;padding-left:0;padding-bottom:40px">
+      <div class="help-head">
+        <h1>You don't have to get through this alone.</h1>
+        <p class="sub">If you're thinking about not being here, reach out now. Someone is available 24 hours a day.</p>
+      </div>
+      <div class="help-list">
+        <a class="help-row primary" href="tel:988"><span class="ic"><i class="ti ti-phone"></i></span><span><div class="t">Call 988</div><div class="m">Suicide &amp; Crisis Lifeline</div></span></a>
+        <a class="help-row" href="sms:988"><span class="ic"><i class="ti ti-message"></i></span><span><div class="t">Text 988</div><div class="m">Same lifeline, by text</div></span></a>
+        <a class="help-row" href="sms:741741&body=HOME"><span class="ic"><i class="ti ti-message-2"></i></span><span><div class="t">Text HOME to 741741</div><div class="m">Crisis Text Line</div></span></a>
+        <div class="section-title" style="margin:16px 4px 2px">From your plan</div>
+        <div id="help-people"></div>
+        <button class="help-row" onclick="openPlan('r')"><span class="ic"><i class="ti ti-notes"></i></span><span><div class="t">Open my plan</div><div class="m">Your three small steps and a message to yourself</div></span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLACEHOLDERS -->
+  <section class="screen" id="tools">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><span class="eyebrow glass">Part 3 · from Kristen's guides</span><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll">
+      <h1>Tools</h1>
+      <p class="sub">Small things that help. Pick one; you don't have to learn them all.</p>
+      <div class="filter" id="tool-filter"></div>
+      <div id="tools-body"></div>
+    </div>
+    <nav class="tabbar glass"><button class="tab" onclick="go('today')"><i class="ti ti-sun"></i><span>Today</span></button><button class="tab on" onclick="go('tools')"><i class="ti ti-tools"></i><span>Tools</span></button><button class="tab now" onclick="go('rightnow')"><span class="disc glass"><i class="ti ti-wind"></i></span><span>Right now</span></button><button class="tab" onclick="go('me')"><i class="ti ti-user-circle"></i><span>Me</span></button><button class="tab" onclick="go('learn')"><i class="ti ti-book-2"></i><span>Learn</span></button></nav>
+  </section>
+
+  <!-- TOOL DETAIL -->
+  <section class="screen" id="tool">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="back()" aria-label="Back"><i class="ti ti-chevron-left"></i></button>
+      <span class="row" style="gap:8px"><button class="heart glass" id="tool-heart" aria-label="Save"><i class="ti ti-heart"></i></button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></span></div>
+    <div class="scroll" style="padding-bottom:20px" id="tool-body"></div>
+    <div class="player-foot" style="padding-bottom:34px"><button class="btn" id="tool-start"></button></div>
+  </section>
+
+  <!-- GUIDED STEPS -->
+  <section class="screen" id="steps">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><span class="eyebrow glass" id="st-title"></span><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll" style="padding-bottom:20px;display:flex;flex-direction:column;justify-content:center">
+      <div class="steps" id="st-dots" style="margin-bottom:28px"></div>
+      <span class="eyebrow" id="st-count"></span>
+      <p class="step-big" id="st-text"></p>
+      <div id="st-ex"></div>
+    </div>
+    <div class="player-foot">
+      <button class="btn" id="st-next" onclick="stNext()">Next</button>
+      <button class="btn ghost" onclick="go('checkin')">Stop here — that counts</button>
+    </div>
+  </section>
+
+  <!-- SCRIPTS -->
+  <section class="screen" id="scripts">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="back()" aria-label="Back"><i class="ti ti-chevron-left"></i></button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll" style="padding-bottom:40px">
+      <h1 id="sc-head">Words for hard moments</h1>
+      <p class="sub" id="sc-sub"></p>
+      <div class="filter" id="sc-seg"></div>
+      <div id="sc-body" style="margin-top:14px"></div>
+    </div>
+  </section>
+  <!-- ME -->
+  <section class="screen" id="me">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><span class="eyebrow glass">Only on this phone</span><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll">
+      <h1>Me</h1>
+      <p class="sub">How it shows up for you, and a plan for the hard days.</p>
+
+      <div class="section-title">For the hardest days</div>
+      <div class="card plan-hero">
+        <div class="t">My First Aid Plan</div>
+        <div class="m" id="plan-status">Written by you on a calmer day, for the days that aren't.</div>
+        <div class="meter" id="plan-meter"></div>
+        <div class="foot-row" style="margin-top:12px">
+          <button class="btn glass primary-lav" onclick="openPlan()"><i class="ti ti-notes"></i>Open my plan</button>
+          <button class="btn ghost" style="flex:0 0 96px" onclick="editPlan(0)">Edit</button>
+        </div>
+      </div>
+
+      <div class="section-title">How it shows up for me</div>
+      <div class="card">
+        <div class="card-head"><span class="t" id="prof-head">Your depression profile</span><button onclick="openProfile('body')">Update</button></div>
+        <div class="chips" id="prof-chips"></div>
+        <div class="hint"><i class="ti ti-sparkles"></i><span id="prof-hint">The app uses this to choose what it suggests first.</span></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="t">When it's hardest</span><button onclick="openProfile('hard')">Edit</button></div>
+        <div style="font-size:16px;margin-top:6px" id="hard-text"></div>
+        <div class="hint"><i class="ti ti-moon"></i><span>After 11 pm, Right now opens with the night script.</span></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="t">What used to bring me joy</span><button onclick="openProfile('joy')">Edit</button></div>
+        <div class="chips" id="joy-chips"></div>
+        <div class="hint"><i class="ti ti-sun"></i><span>These become the "something you enjoy" ideas on Today.</span></div>
+      </div>
+
+      <div class="section-title">Looking back</div>
+      <div class="card">
+        <div class="card-head"><span class="t">This week</span><span class="eyebrow">9 small things</span></div>
+        <div class="week">
+          <div><b class="d2"></b>Fri</div><div><b></b>Sat</div><div><b class="d1"></b>Sun</div><div><b class="d3"></b>Mon</div><div><b class="d2"></b>Tue</div><div><b class="d1"></b>Wed</div><div><b class="d1" style="outline:2px solid var(--sage);outline-offset:1px"></b>Today</div>
+        </div>
+        <div class="hint"><i class="ti ti-circle-check"></i><span>No streaks. A quiet day just stays blank; it never turns red.</span></div>
+      </div>
+
+      <div class="card" style="padding:4px 14px;margin-top:10px">
+        <button class="list-row" onclick="toast('Weekly check-in: next iteration')"><i class="ti ti-calendar-heart lead"></i><span class="grow">Weekly check-in<div class="m">Sunday · already partly filled in</div></span><i class="ti ti-chevron-right chev"></i></button>
+        <button class="list-row" onclick="toast('Bring to session: next iteration')"><i class="ti ti-file-export lead"></i><span class="grow">Bring to session<div class="m">A one-page summary you choose to share</div></span><i class="ti ti-chevron-right chev"></i></button>
+        <button class="list-row" onclick="toast('Settings: next iteration')"><i class="ti ti-lock lead"></i><span class="grow">Privacy &amp; settings<div class="m">Face ID lock · reminders · your data</div></span><i class="ti ti-chevron-right chev"></i></button>
+      </div>
+      <p class="sub" style="font-size:13px;margin:16px 4px 0">Getting By is not therapy. It's a companion to the work you do with your counselor.</p>
+    </div>
+    <nav class="tabbar glass"><button class="tab" onclick="go('today')"><i class="ti ti-sun"></i><span>Today</span></button><button class="tab" onclick="go('tools')"><i class="ti ti-tools"></i><span>Tools</span></button><button class="tab now" onclick="go('rightnow')"><span class="disc glass"><i class="ti ti-wind"></i></span><span>Right now</span></button><button class="tab on" onclick="go('me')"><i class="ti ti-user-circle"></i><span>Me</span></button><button class="tab" onclick="go('learn')"><i class="ti ti-book-2"></i><span>Learn</span></button></nav>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="screen" id="profile">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="go('me')" aria-label="Back"><i class="ti ti-chevron-left"></i></button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll" style="padding-bottom:40px">
+      <h1>How it shows up for you</h1>
+      <p class="sub">This isn't a diagnosis. There are no right answers. Check what fits, and change it any time.</p>
+      <div class="seg" id="prof-seg"></div>
+      <div id="prof-body"></div>
+      <p class="hint" style="margin-top:18px"><i class="ti ti-device-mobile"></i><span>Saved on this phone as you go. Nothing is sent anywhere.</span></p>
+    </div>
+  </section>
+
+  <!-- PLAN (use mode) -->
+  <section class="screen" id="plan">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="back()" aria-label="Back"><i class="ti ti-chevron-left"></i></button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll" style="padding-bottom:40px">
+      <span class="eyebrow">My First Aid Plan</span>
+      <h1>You made this for today.</h1>
+      <p class="sub">How heavy is it right now?</p>
+      <div class="levels">
+        <button class="y" data-l="y" onclick="setLevel('y')">Early<br>signs</button>
+        <button class="o" data-l="o" onclick="setLevel('o')">A hard<br>day</button>
+        <button class="r" data-l="r" onclick="setLevel('r')">I don't<br>feel safe</button>
+      </div>
+      <div id="plan-body"></div>
+      <div style="text-align:center;margin-top:10px"><button class="link" onclick="editPlan(0)">Edit my plan</button></div>
+    </div>
+  </section>
+
+  <!-- PLAN EDIT (build mode) -->
+  <section class="screen" id="planedit">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="go('me')" aria-label="Close"><i class="ti ti-x"></i></button><span class="eyebrow glass" id="pe-count"></span></div>
+    <div class="scroll" style="padding-bottom:20px">
+      <div class="steps" id="pe-steps"></div>
+      <div id="pe-body"></div>
+    </div>
+    <div class="player-foot" style="padding-bottom:34px">
+      <div class="foot-row"><button class="btn ghost" id="pe-back" style="flex:0 0 110px" onclick="peStep(-1)">Back</button><button class="btn" id="pe-next" onclick="peStep(1)">Next</button></div>
+      <div style="text-align:center"><button class="link" style="padding-bottom:0" onclick="go('me');toast('Saved. Finish whenever.')">Save and finish later</button></div>
+    </div>
+  </section>
+
+  <section class="screen" id="learn">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><span class="eyebrow glass">Part 1 · understanding it</span><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll">
+      <h1>Learn</h1>
+      <p class="sub">What's happening, and why it isn't your fault. A few minutes at a time.</p>
+      <div class="section-title">A reminder for today</div>
+      <div class="card remind" id="remind"></div>
+      <div class="section-title">Understand what's going on</div>
+      <div id="topics"></div>
+      <p class="hint" style="margin-top:16px"><i class="ti ti-info-circle"></i><span>Written by Kristen Russell, LPC. This is education, not a diagnosis or therapy.</span></p>
+    </div>
+    <nav class="tabbar glass"><button class="tab" onclick="go('today')"><i class="ti ti-sun"></i><span>Today</span></button><button class="tab" onclick="go('tools')"><i class="ti ti-tools"></i><span>Tools</span></button><button class="tab now" onclick="go('rightnow')"><span class="disc glass"><i class="ti ti-wind"></i></span><span>Right now</span></button><button class="tab" onclick="go('me')"><i class="ti ti-user-circle"></i><span>Me</span></button><button class="tab on" onclick="go('learn')"><i class="ti ti-book-2"></i><span>Learn</span></button></nav>
+  </section>
+
+  <!-- ARTICLE -->
+  <section class="screen" id="article">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="go('learn')" aria-label="Close"><i class="ti ti-x"></i></button>
+      <span class="row" style="gap:8px"><button class="chip glass" onclick="toast('Reads this page aloud')"><i class="ti ti-volume"></i> Read to me</button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></span></div>
+    <div class="scroll" style="padding-bottom:20px">
+      <div class="steps" id="ar-dots"></div>
+      <span class="eyebrow" id="ar-eyebrow"></span>
+      <div class="art" id="ar-body"></div>
+    </div>
+    <div class="player-foot" style="padding-bottom:34px">
+      <div class="foot-row"><button class="btn ghost" id="ar-prev" style="flex:0 0 110px" onclick="arGo(-1)">Back</button><button class="btn" id="ar-next" onclick="arGo(1)">Next</button></div>
+    </div>
+  </section>
+
+  <div class="a2hs" id="a2hs" role="note"><button class="x" aria-label="Dismiss" onclick="this.parentNode.classList.remove('show')"><i class="ti ti-x"></i></button>
+    <b>Make it feel like an app</b><br>Tap <i class="ti ti-share"></i> Share, then <b>Add to Home Screen</b>. Open it from your Home Screen and it runs full-screen.<br><span style="opacity:.75">A prototype: nothing is saved, and calls and texts are switched off.</span></div>
+  <div class="toast glass" id="toast"></div>
+</div>
+
+<aside class="notes">
+  <div class="card review">
+    <strong>Kristen — how to review</strong>
+    <ol>
+      <li>Use the phone on the left like an app. Everything on it is clickable.</li>
+      <li>Use the buttons below to jump to any screen.</li>
+      <li>Nothing you enter is saved or sent anywhere. Reloading the page resets it.</li>
+      <li>Calls and texts are switched off in this demo. Tapping "Call 988" shows a short message instead of dialling.</li>
+    </ol>
+    <p style="margin:8px 0 0"><b>Most useful from you:</b> anything that doesn't sound like you, anything clinically off, the crisis wording (Get help, and the profile's "not wanting to be here" reply), and what you'd want the app to do next.</p>
+  </div>
+  <label class="glass-review-toggle"><input type="checkbox" id="reduce-glass-toggle"> Reduce transparency</label>
+  <h3 style="margin-top:20px">Getting By · prototype v6</h3>
+  <p class="sub">Iteration 5 is a polish pass: dead ends now lead somewhere, the worry window works, and navigation, dates, names and accessibility are tidied up.</p>
+  <div class="jump">
+    <button onclick="go('today')">Today</button>
+    <button onclick="go('rightnow')">Right now</button>
+    <button onclick="startBreath('Physiological sigh')">Breath player</button>
+    <button onclick="startTimer()">Two-minute start</button>
+    <button onclick="showScript('thoughts')">Script</button>
+    <button onclick="go('checkin')">Check-in</button>
+    <button onclick="go('help')">Get help</button>
+    <button onclick="go('me')">Me</button>
+    <button onclick="openProfile('mind')">Profile</button>
+    <button onclick="openPlan('o')">Plan · use</button>
+    <button onclick="editPlan(0)">Plan · build</button>
+    <button onclick="go('tools')">Tools</button>
+    <button onclick="openTool(TOOLS.find(t=>t.run==='steps').id)">Tool detail</button>
+    <button onclick="curTool=TOOLS.find(t=>t.run==='steps');startSteps()">Walk-through</button>
+    <button onclick="openScripts('others')">Words for others</button>
+    <button onclick="go('learn')">Learn</button>
+    <button onclick="arK='anx';arI=0;go('article');renderArticle()">Article</button>
+    <button onclick="arK='dep';arI=pages('dep').length-1;go('article');renderArticle()">Article end</button>
+    <button onclick="parkWorry()"><b>Park a worry</b></button>
+    <button onclick="openWindow()"><b>Worry window</b></button>
+  </div>
+  <div class="card">
+    <strong>What changed in v6</strong>
+    <ol>
+      <li><b>New visual system: Luminous Jade &amp; Plum.</b> Mint canvas, white cards, deep jade for actions, plum only for Get help and safety. Captions use #5E6F66 instead of the spec's #718279, which is too faint to read at small sizes (3.7:1).</li>
+      <li><b>Type.</b> Newsreader serif for headings and reflective text; Inter for everything you tap.</li>
+      <li><b>Get help</b> is a solid plum pill with a white lifebuoy on every screen. No orange or red anywhere.</li>
+      <li><b>Floating frosted dock</b> for the tabs; Right now stays in the centre.</li>
+      <li><b>Right now</b> choices are tiles; breathing and timers use jade rings.</li>
+    </ol>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <strong>What changed in v5</strong>
+    <ol>
+      <li><b>Worry window works.</b> On Today, "Park a worry" saves a few words for 5 pm. "Open the window early" shows each one with <i>Let it go · Tomorrow · Act on it</i> and the Three-Question Reset.</li>
+      <li><b>No more dead ends in Right now.</b> "Thoughts won't stop" now offers the Three-Question Reset, "hard on myself" offers the Self-Compassion Break, and "can't sleep" opens <i>Write it down for the morning</i>.</li>
+      <li><b>Your names, everywhere.</b> Get help, the check-in and Words for others use the person and counselor from your plan. Edit the plan and they update.</li>
+      <li><b>Navigation.</b> Tabs reset history, so Back never jumps somewhere odd. Screens open at the top. Today's date and the week view are correct.</li>
+      <li><b>Accessibility.</b> Visible focus rings, bigger chips (36px min), pressed states announced to screen readers, and reduced-motion respected everywhere.</li>
+      <li><b>Content.</b> The 5-4-3-2-1 steps read cleanly. The first plan level now uses the guide's wording: "Early signs".</li>
+    </ol>
+    <p class="sub" style="margin-top:8px">Still placeholders: Weekly check-in, Bring to session, Settings, voice memo, and Read to me.</p>
+  </div>
+  <p class="sub" style="margin-top:12px">Profile and plan wording comes from <i>Lifting the Fog</i>, Sections 2 and 5. The three levels are a prototype idea, not from the guide yet. Try dark mode too.</p>
+</aside>
+</div>
+
+<script>
+const SCRIPTS={
+  thoughts:{text:"I notice these thoughts are very loud right now. I don't have to believe everything they're telling me. I can let them move through me while I stay here.",src:"From Stop Spiraling Thoughts",alt:"Try the Three-Question Reset"},
+  critic:{text:"I am not failing. I am struggling, and struggling is not the same as failing. I am doing the best I can with a very heavy load. That deserves compassion, not criticism.",src:"From Lifting the Fog",alt:"Try the self-compassion break"},
+  sleep:{text:"It's nighttime. My brain is problem-solving without the resources to do it well. These thoughts feel urgent — they are not. I can write them down and return to them in the morning. Right now, the only job I have is to rest.",src:"From When Anxiety Runs the Show",alt:"Write the thoughts down"}
+};
+const SMALLER={
+  pleasure:["Listen to one song you used to love","Play the first 30 seconds of one song","Just open your music app"],
+  mastery:["Wash the dishes","Wash one dish","Put one dish in the sink"]
+};
+const sIdx={pleasure:0,mastery:0};
+let stack=['today'],timers=[];
+
+/*GO*/function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  if(['today','tools','me','learn'].includes(id)) stack=[id];
+  else if(stack[stack.length-1]!==id) stack.push(id);
+  document.querySelectorAll('#'+id+' .scroll').forEach(x=>x.scrollTop=0);
+  document.querySelectorAll('.tabbar .tab').forEach(t=>{t.removeAttribute('aria-current')});
+  document.querySelectorAll('#'+id+' .tab.on').forEach(t=>t.setAttribute('aria-current','page'));
+  if(id==='help')renderHelp();
+  if(id==='today')renderToday();
+  if(id==='me')renderMe();
+  if(id==='tools')renderTools();
+  if(id==='learn')renderLearn();
+  if(id==='checkin'){document.getElementById('checkin-q').style.display='flex';document.getElementById('checkin-a').style.display='none';}
+}
+function back(){stack.pop();const prev=stack.pop()||'today';go(prev);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1800);}
+function stopAll(){timers.forEach(clearTimeout);timers.forEach(clearInterval);timers=[];}
+
+function toggleDone(btn){btn.classList.toggle('done');btn.setAttribute('aria-pressed',btn.classList.contains('done'));btn.closest('.thing').classList.toggle('done');if(btn.classList.contains('done'))toast('That counts.');}
+function smaller(k){sIdx[k]=Math.min(sIdx[k]+1,SMALLER[k].length-1);document.getElementById(k+'-text').textContent=SMALLER[k][sIdx[k]];toast(sIdx[k]===SMALLER[k].length-1?'That’s the smallest step':'Made it smaller');}
+
+function startBreath(title){
+  stopAll();go('breath');
+  document.getElementById('breath-title').textContent=title;
+  const c=document.getElementById('circle'),cue=document.getElementById('cue'),dots=[...document.querySelectorAll('#dots span')];
+  dots.forEach(d=>d.classList.remove('on'));
+  c.style.transition='transform 600ms ease';c.style.transform='scale(.6)';cue.textContent='Get comfortable';
+  const phases=[["Breathe in through your nose",2200,1.0],["One more short sniff",800,1.18],["Long, slow breath out",5500,.6]];
+  let t=1200;
+  for(let cycle=0;cycle<3;cycle++){
+    phases.forEach(([txt,d,s],i)=>{
+      timers.push(setTimeout(()=>{c.style.transition=`transform ${d}ms ease-in-out`;c.style.transform=`scale(${s})`;cue.textContent=txt;if(i===0)dots[cycle].classList.add('on');},t));
+      t+=d;
+    });
+  }
+  timers.push(setTimeout(()=>{cue.textContent='Nice. Notice how you feel.';},t));
+  timers.push(setTimeout(()=>go('checkin'),t+2200));
+}
+
+function startTimer(){
+  stopAll();go('timer');
+  document.getElementById('clock').textContent='2:00';document.getElementById('ring').style.setProperty('--p','0deg');
+  document.getElementById('timer-head').textContent='Pick one thing. Do only the first two minutes.';
+  document.getElementById('timer-sub').textContent="When the timer ends, you're allowed to stop. Stopping counts as a complete success.";
+  const b=document.getElementById('timer-btn');b.style.display='flex';
+}
+function runTimer(){
+  document.getElementById('timer-btn').style.display='none';
+  const total=120;let left=total;
+  const tick=()=>{left--;const m=Math.floor(left/60),s=String(left%60).padStart(2,'0');
+    document.getElementById('clock').textContent=`${m}:${s}`;
+    document.getElementById('ring').style.setProperty('--p',`${(total-left)/total*360}deg`);
+    if(left<=0){stopAll();document.getElementById('timer-head').textContent='Two minutes. You did it.';
+      document.getElementById('timer-sub').textContent='You can stop now — or keep going if you want to. Either way counts.';}};
+  timers.push(setInterval(tick,1000));
+}
+
+function showScript(k){
+  stopAll();const s=SCRIPTS[k];go('script');
+  document.getElementById('script-label').textContent='Say this to yourself, slowly';document.getElementById('script-text').textContent='“'+s.text+'”';
+  document.getElementById('script-src').textContent=s.src;
+  const alt=document.getElementById('script-alt');alt.textContent=s.alt;alt.onclick=()=>{if(k==='sleep')parkWorry('night');else openTool(TOOLS.find(t=>t.name.includes(k==='thoughts'?'Three-Question':'Self-Compassion')).id);};
+}
+
+function answer(a){
+  document.getElementById('checkin-q').style.display='none';document.getElementById('checkin-a').style.display='flex';
+  const h=document.getElementById('a-head'),sub=document.getElementById('a-sub'),act=document.getElementById('a-actions');
+  if(a==='no'){
+    h.innerHTML='That’s okay.';sub.textContent='Some moments need more than one tool. You can try another, or reach out to someone.';
+    act.innerHTML=`<button class="btn" onclick="go('rightnow')">Try something else</button>
+      <button class="btn soft" onclick="toast('Opens Messages to '+plan.person.name)">Message ${plan.person.name}</button>
+      <button class="btn help-soft" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button>`;
+  }else{
+    h.innerHTML='That counts.';sub.textContent=a==='yes'?'Glad it helped. The app will suggest this one first next time.':'A bit is still something. The app will remember this helped.';
+    act.innerHTML=`<button class="btn" onclick="stack=['today'];go('today')">Done</button>
+      <button class="btn soft" onclick="toast('Saved. We’ll check in later.')">Look back on this later</button>
+      <button class="btn ghost" onclick="toast('Opens Messages to '+plan.person.name)">Message ${plan.person.name}</button>`;
+  }
+}
+
+/* ---------- v2: profile + plan ---------- */
+const PROFILE={
+  body:{label:'Body',q:'How depression feels in my body',items:['Constant fatigue, even after sleeping','Moving or speaking more slowly than usual','Physical heaviness — like carrying extra weight','Changes in appetite (eating much more or much less)','Sleep changes (too much, too little, or unrestful)','Headaches or unexplained body pain','Feeling disconnected from my body','Loss of interest in physical touch or closeness']},
+  mind:{label:'Mind',q:'How depression feels in my mind',items:['Difficulty concentrating or making decisions','Mental fog or slowed thinking','Negative self-talk ("I\'m a burden," "nothing matters")','Feeling hopeless about the future','Dwelling on past mistakes or regrets','Comparing myself unfavorably to others','Feeling like a different, lesser version of myself','Thoughts of not wanting to be here'],tender:7},
+  behavior:{label:'Behavior',q:'How depression affects what I do',items:['Withdrawing from people I care about','Skipping things I used to enjoy','Letting responsibilities pile up','Staying in bed or on the couch for long periods','Numbing with TV, phone, food, or alcohol','Neglecting basic self-care (hygiene, meals, movement)','Snapping at others or feeling irritable without knowing why','Going through the motions without feeling present']},
+  hard:{label:'Hardest times',q:'When does it feel heaviest?',items:['Early mornings','Late at night','Sunday evenings','Winter','After seeing family','When I\'m alone at home']},
+  joy:{label:'Joy',q:'What used to bring me joy',sub:'Even if it feels out of reach right now. This isn\'t a reminder of what\'s missing; it\'s a map of what matters to you.',free:true}
+};
+const prof={body:new Set([0,2,4]),mind:new Set([1,2]),behavior:new Set([0,3]),hard:new Set([2,1]),joy:['Cooking for friends','Running by the river','My old playlists','Calling my sister']};
+let profTab='body';
+
+function renderMe(){
+  const picks=[];['body','mind','behavior'].forEach(k=>[...prof[k]].forEach(i=>{if(!(k==='mind'&&i===PROFILE.mind.tender))picks.push(PROFILE[k].items[i].replace(/ \(.*\)/,'').replace(/ — .*/,''))}));
+  document.getElementById('prof-chips').innerHTML=picks.slice(0,5).map(p=>`<span class="pill">${p}</span>`).join('')+(picks.length>5?`<span class="pill">+${picks.length-5} more</span>`:'')+(picks.length?'':'<span class="pill add" onclick="openProfile(\'body\')">Start your profile</span>');
+  const b=prof.body.size,be=prof.behavior.size,m=prof.mind.size;
+  const most=b>=m&&b>=be?'your body':be>=m?'what you do':'your thoughts';
+  document.getElementById('prof-hint').textContent=picks.length?`Mostly shows up in ${most}, so tools for that come first.`:'The app uses this to choose what it suggests first.';
+  document.getElementById('hard-text').textContent=[...prof.hard].map(i=>PROFILE.hard.items[i]).join(' · ')||'Not set yet';
+  document.getElementById('joy-chips').innerHTML=prof.joy.map(j=>`<span class="pill">${j}</span>`).join('');
+  const filled=planFilled();
+  document.getElementById('plan-meter').innerHTML=PE_STEPS.map((_,i)=>`<span class="${filled[i]?'on':''}"></span>`).join('');
+  const n=filled.filter(Boolean).length;
+  document.getElementById('plan-status').textContent=n===6?'All six parts filled in. Written by you on a calmer day, for the days that aren\'t.':`${n} of 6 parts filled in. Each part helps on its own.`;
+}
+
+function openProfile(tab){profTab=tab;go('profile');renderProfile();}
+function renderProfile(){
+  document.getElementById('prof-seg').innerHTML=Object.entries(PROFILE).map(([k,v])=>`<button class="${k===profTab?'on':''}" onclick="profTab='${k}';renderProfile()">${v.label}</button>`).join('');
+  const P=PROFILE[profTab];let h=`<div class="section-title" style="margin-top:14px">${P.q}</div>`;
+  if(P.free){
+    h+=`<p class="sub" style="font-size:14px;margin:0 4px 8px">${P.sub}</p>`;
+    h+=prof.joy.map((j,i)=>`<div class="opt on" style="cursor:default"><span class="box"><i class="ti ti-heart"></i></span><span style="flex:1">${j}</span><button class="chip" onclick="prof.joy.splice(${i},1);renderProfile()">Remove</button></div>`).join('');
+    h+=`<div class="row" style="margin-top:10px"><input class="field" id="joy-in" placeholder="Something else…" onkeydown="if(event.key==='Enter')addJoy()"><button class="chip" onclick="addJoy()">Add</button></div>`;
+  }else{
+    h+=P.items.map((it,i)=>{const on=prof[profTab].has(i),t=P.tender===i;
+      return `<button class="opt ${on?'on':''} ${t?'tender':''}" aria-pressed="${on}" onclick="toggleProf(${i})"><span class="box"><i class="ti ti-check"></i></span><span>${it}</span></button>`+
+      (t&&on?`<div class="care"><b>Thank you for telling us.</b> You don't have to carry this alone. If these thoughts are with you right now, please reach out today: someone is there 24 hours a day.
+        <button class="btn help" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Talk to someone now</button>
+        <div class="hint" style="margin-top:10px"><i class="ti ti-heart-handshake"></i><span>Worth telling your counselor too. This stays private on your phone unless you choose to share it.</span></div></div>`:'')}).join('');
+  }
+  document.getElementById('prof-body').innerHTML=h;
+}
+function toggleProf(i){const s=prof[profTab];s.has(i)?s.delete(i):s.add(i);renderProfile();}
+function addJoy(){const el=document.getElementById('joy-in');if(el.value.trim()){prof.joy.push(el.value.trim());renderProfile();setTimeout(()=>document.getElementById('joy-in').focus(),0);}}
+
+const plan={
+  signs:{body:'Sleeping past noon, skipping meals',thoughts:'"What\'s the point" on repeat',behavior:'Not answering texts, cancelling on people'},
+  helps:new Set([0,1,6]),
+  person:{name:'Sam',how:'Text first, call if no answer'},
+  checker:{name:'Jordan',how:'Checks in if I go quiet for 2 days'},
+  steps:['Drink a glass of water','Open the window','Send Sam one text'],
+  counselor:{name:'Alex Rivera, LPC',how:'Office: weekdays 9–5'},
+  letter:'You\'ve been here before and you came back. The fog is not who you are. Do the three small things, and then you\'re allowed to rest.'
+};
+const HELPS=['Going outside, even briefly','A warm shower or bath','Calling or texting someone I trust','Watching something comforting','Lying down without guilt','Eating something nourishing','Music that matches or gently shifts my mood','Being around other people without having to talk'];
+const PE_STEPS=['My warning signs','What helps, even a little','My people','Three micro-steps for a low day','Professional support','A message to myself'];
+function planFilled(){return [plan.signs.body||plan.signs.thoughts||plan.signs.behavior,plan.helps.size,plan.person.name,plan.steps.filter(Boolean).length,plan.counselor.name,plan.letter].map(Boolean);}
+let peI=0,level='o',doneSteps=new Set();
+
+function openPlan(l){level=l||'o';doneSteps=new Set();go('plan');renderPlan();}
+function setLevel(l){level=l;renderPlan();}
+function renderPlan(){
+  document.querySelectorAll('.levels button').forEach(b=>b.classList.toggle('on',b.dataset.l===level));
+  const letter=`<div class="card letter-card" style="margin-top:14px"><div class="from"><i class="ti ti-mail-heart"></i>From you, on a calmer day</div><p class="letter">“${plan.letter}”</p>
+    <button class="chip" style="margin-top:12px" onclick="toast('Plays your voice memo')"><i class="ti ti-player-play"></i> Hear it in your voice</button></div>`;
+  const steps=`<div class="section-title">Just these three things</div>`+plan.steps.map((s,i)=>`<button class="big-step ${doneSteps.has(i)?'done':''}" onclick="doneSteps.has(${i})?doneSteps.delete(${i}):doneSteps.add(${i});renderPlan();if(doneSteps.has(${i}))toast('That counts.')"><span class="n">${doneSteps.has(i)?'<i class="ti ti-check"></i>':i+1}</span>${s}</button>`).join('')
+    +(doneSteps.size===3?`<p class="sub" style="margin:10px 4px 0">All three. That is a full day's work on a day like this.</p>`:'');
+  const helps=`<div class="section-title">What helps, even a little</div><div class="chips" style="margin-top:0">`+[...plan.helps].map(i=>`<span class="pill" style="font-size:15px;padding:9px 13px">${HELPS[i]}</span>`).join('')+`</div>`;
+  const signs=`<div class="section-title">You noticed it gets heavier when</div><div class="card" style="font-size:15px;line-height:1.5">
+    <div><span class="eyebrow">Body</span><br>${plan.signs.body}</div><div style="margin-top:8px"><span class="eyebrow">Thoughts</span><br>${plan.signs.thoughts}</div><div style="margin-top:8px"><span class="eyebrow">What I do</span><br>${plan.signs.behavior}</div>
+    <div class="hint"><i class="ti ti-info-circle"></i><span>Noticing it early is the point. This is a signal, not a failure.</span></div></div>`;
+  const ini=n=>n.split(' ').map(w=>w[0]).join('').slice(0,2);
+  const people=`<div class="section-title">My people</div>
+    <div class="card"><div class="person"><span class="av">${ini(plan.person.name)}</span><span class="grow"><div class="t">${plan.person.name}</div><div class="m">${plan.person.how}</div></span>
+      <button class="round-act soft" onclick="toast('Opens Messages to ${plan.person.name}')" aria-label="Text"><i class="ti ti-message"></i></button><button class="round-act" onclick="toast('Calls ${plan.person.name}')" aria-label="Call"><i class="ti ti-phone"></i></button></div>
+      <button class="chip" style="margin-top:12px" onclick="toast('Opens Messages with: I\\'m having a really hard time…')">Send "I'm having a really hard time right now…"</button></div>
+    <div class="card"><div class="person"><span class="av">${ini(plan.counselor.name)}</span><span class="grow"><div class="t">${plan.counselor.name}</div><div class="m">${plan.counselor.how}</div></span>
+      <button class="round-act" onclick="toast('Calls your counselor')" aria-label="Call"><i class="ti ti-phone"></i></button></div></div>`;
+  const crisis=`<div class="card crisis" style="margin-top:14px"><div class="t">Always available, any hour</div>
+    <a class="btn help" style="margin-top:12px;text-decoration:none" href="tel:988"><i class="ti ti-phone"></i>Call 988</a>
+    <a class="btn help-soft" style="margin-top:8px;text-decoration:none" href="sms:741741&body=HOME">Text HOME to 741741</a></div>`;
+  const order={y:[letter,helps,signs,steps,people,crisis],o:[letter,steps,people,helps,crisis],r:[crisis,people,letter]}[level];
+  document.getElementById('plan-body').innerHTML=order.join('');
+}
+
+function editPlan(i){peI=i;go('planedit');renderPE();}
+function peStep(d){if(peI+d<0)return;if(peI+d>=PE_STEPS.length){go('me');renderMe();toast('Your plan is saved on this phone');return;}peI+=d;renderPE();}
+function renderPE(){
+  document.getElementById('pe-count').textContent=`Part ${peI+1} of ${PE_STEPS.length}`;
+  document.getElementById('pe-steps').innerHTML=PE_STEPS.map((_,i)=>`<span class="${i<=peI?'on':''}"></span>`).join('');
+  document.getElementById('pe-back').style.visibility=peI?'visible':'hidden';
+  document.getElementById('pe-next').innerHTML=peI===PE_STEPS.length-1?'<i class="ti ti-check"></i>Save my plan':'Next';
+  let h=`<h1>${PE_STEPS[peI]}</h1>`;
+  const fld=(lab,path,val,ph,rows=1)=>`<label class="fl">${lab}</label>${rows>1?`<textarea class="field" rows="${rows}" placeholder="${ph}" oninput="${path}=this.value">${val}</textarea>`:`<input class="field" value="${String(val).replace(/"/g,'&quot;')}" placeholder="${ph}" oninput="${path}=this.value">`}`;
+  if(peI===0){
+    h+=`<p class="sub">Best done on a calmer day. Take your time; you can skip any of these.</p>
+      <p class="sub" style="margin-top:8px">I know depression is getting heavier when I notice…</p>`
+      +fld('In my body','plan.signs.body',plan.signs.body,'e.g. sleeping much more')
+      +fld('In my thoughts','plan.signs.thoughts',plan.signs.thoughts,'e.g. "nothing matters"')
+      +fld('In what I do','plan.signs.behavior',plan.signs.behavior,'e.g. not answering texts')
+      +`<div class="hint" style="margin-top:14px"><i class="ti ti-sparkles"></i><span>From your profile: </span></div><div class="chips">`
+      +[...prof.body].slice(0,2).map(i=>`<button class="pill add" onclick="plan.signs.body=(plan.signs.body?plan.signs.body+', ':'')+'${PROFILE.body.items[i].replace(/ —.*| \(.*/,'').toLowerCase().replace(/'/g,"\\'")}';renderPE()">+ ${PROFILE.body.items[i].replace(/ —.*| \(.*/,'')}</button>`).join('')+`</div>`;
+  }else if(peI===1){
+    h+=`<p class="sub">Things that have helped in hard moments before. Pick any.</p>`+HELPS.map((x,i)=>`<button class="opt ${plan.helps.has(i)?'on':''}" onclick="plan.helps.has(${i})?plan.helps.delete(${i}):plan.helps.add(${i});renderPE()"><span class="box"><i class="ti ti-check"></i></span><span>${x}</span></button>`).join('');
+  }else if(peI===2){
+    h+=`<p class="sub">On a hard day, the plan shows them with one-tap call and text.</p>`
+      +`<div class="section-title">Someone I can contact when I'm struggling</div>`+fld('Name','plan.person.name',plan.person.name,'Name')+fld('How to reach them','plan.person.how',plan.person.how,'e.g. text first')
+      +`<button class="chip" style="margin-top:10px" onclick="toast('Opens your contacts')"><i class="ti ti-address-book"></i> Choose from contacts</button>`
+      +`<div class="section-title">Someone who checks in if I go quiet</div>`+fld('Name','plan.checker.name',plan.checker.name,'Name')+fld('How they\'ll know','plan.checker.how',plan.checker.how,'e.g. after 2 quiet days')
+      +`<div class="hint"><i class="ti ti-info-circle"></i><span>The app won't contact anyone for you. Tell them you've named them here.</span></div>`;
+  }else if(peI===3){
+    h+=`<p class="sub">On my hardest days, I commit to just these three things. Make them small enough to do lying down if you need to.</p>`
+      +[0,1,2].map(i=>fld(`${i+1}.`,`plan.steps[${i}]`,plan.steps[i]||'','')).join('')
+      +`<div class="hint" style="margin-top:14px"><i class="ti ti-bulb"></i><span>Ideas from the guide:</span></div><div class="chips">`
+      +['Drink a glass of water','Open a window','Send one text','Sit outside for 5 minutes'].map(x=>`<button class="pill add" onclick="const k=plan.steps.findIndex(s=>!s);plan.steps[k<0?2:k]='${x}';renderPE()">+ ${x}</button>`).join('')+`</div>`;
+  }else if(peI===4){
+    h+=fld('My therapist or counselor','plan.counselor.name',plan.counselor.name,'Name')+fld('Contact','plan.counselor.how',plan.counselor.how,'Phone, hours')
+      +`<div class="card crisis" style="margin-top:18px"><div class="t">Always in your plan</div><div style="font-size:15px;margin-top:6px;line-height:1.5">988 Suicide &amp; Crisis Lifeline: call or text 988<br>Crisis Text Line: text HOME to 741741</div></div>`;
+  }else{
+    h+=`<p class="sub">A few sentences for when you're in the fog: something you want your struggling self to remember.</p>`
+      +`<textarea class="field" rows="6" style="margin-top:14px;font:19px/1.5 Georgia,serif" oninput="plan.letter=this.value">${plan.letter}</textarea>`
+      +`<button class="btn soft" style="margin-top:12px" onclick="toast('Recording… (prototype)')"><i class="ti ti-microphone"></i>Record it in your voice instead</button>`
+      +`<div class="hint" style="margin-top:12px"><i class="ti ti-heart"></i><span>Having a plan is not an admission of weakness. It's one of the most loving things you can do for yourself.</span></div>`;
+  }
+  document.getElementById('pe-body').innerHTML=h;
+  document.querySelector('#planedit .scroll').scrollTop=0;
+}
+
+
+/* ---------- v3: Tools ---------- */
+const TOOLS_RAW=[{"id": "dep0", "cond": "dep", "src": "Lifting the Fog", "name": "The Two-Minute Start", "best": "Paralysis, low motivation, overwhelming tasks, getting out of bed", "intro": "Depression makes starting feel impossible. This tool removes the barrier of beginning by making the commitment absurdly — almost laughably — small.", "steps": ["Identify one thing you have been avoiding or unable to begin.", "Commit to doing only the first two minutes of it — nothing more.", "Set a timer. Begin. When the timer goes off, you are allowed to stop."], "note": "Many times, you will continue past two minutes — but you never have to. Stopping counts as a complete success.", "ex": [], "group": "moving", "run": "timer", "mins": 2}, {"id": "dep1", "cond": "dep", "src": "Lifting the Fog", "name": "The Pleasure and Mastery Log", "best": "Anhedonia, withdrawal, loss of meaning and motivation", "intro": "Deliberately reintroduce activities that bring pleasure or a sense of accomplishment — even in small doses — to begin rewiring the brain's reward pathways.", "steps": ["Each day, schedule one Pleasure activity (something that once felt enjoyable) and one Mastery activity (something small that creates a sense of accomplishment).", "After each activity, rate how you felt on a scale of 0–10 for both pleasure and mastery — even if the ratings are very low.", "Track this daily for one week."], "note": "The ratings often begin low and gradually shift — and that shift is evidence of healing.", "ex": [], "group": "moving", "run": "steps", "mins": 2}, {"id": "dep2", "cond": "dep", "src": "Lifting the Fog", "name": "The Micro-Goal Method", "best": "Overwhelm, inability to function at previous capacity, all-or-nothing thinking", "intro": "Meet yourself exactly where you are — not where you think you should be.", "steps": ["Take any goal or task that feels impossible.", "Break it into the smallest possible unit — not the first step, but the first movement toward the first step.", "Do that one micro-action. Count it as a full and complete win."], "note": "You are not lowering your standards. You are adapting your expectations to your current capacity.", "ex": ["\"Clean the house\" → Put one dish in the sink.", "\"Exercise\" → Put on my shoes.", "\"Call a friend\" → Send one text that says hi."], "group": "moving", "run": "steps", "mins": 2}, {"id": "dep3", "cond": "dep", "src": "Lifting the Fog", "name": "Opposite Action", "best": "Withdrawal, avoidance, isolation, urges to cancel plans or stay in bed", "intro": "Used when an emotion is driving a behavior that makes the emotion worse.", "steps": ["Identify the action depression is urging (stay in bed, cancel, avoid, hide).", "Identify the opposite action — the smallest version of its opposite.", "Do the opposite action — not to fix the feeling, but to interrupt the cycle."], "note": "You do not have to feel like doing it. That is the point.", "ex": ["Urge to cancel → Show up for 20 minutes. You can leave after 20 minutes.", "Urge to stay in bed all day → Sit up. Put feet on the floor. Move to the couch."], "group": "moving", "run": "steps", "mins": 2}, {"id": "dep4", "cond": "dep", "src": "Lifting the Fog", "name": "Movement as Medicine", "best": "Fatigue, physical heaviness, low mood, mental fog", "intro": "Even gentle, brief movement is one of the most effective natural antidepressants available.", "steps": ["Choose one: a 10-minute walk outside (even slow, even aimless), gentle stretching for 5 minutes, dancing to one song in your kitchen, or a gentle movement video.", "Commit to the smallest version and begin."], "note": "The mood shift often follows the movement, not the other way around.", "ex": [], "group": "body", "run": "steps", "mins": 1}, {"id": "dep5", "cond": "dep", "src": "Lifting the Fog", "name": "Self-Compassion Break", "best": "Harsh self-criticism, shame, the inner critic, feeling like a burden", "intro": "Interrupt the self-criticism cycle with the same warmth and care you would offer someone you love.", "steps": ["Notice the self-critical thought or moment of pain.", "Say to yourself: \"This is a moment of suffering.\"", "\"Suffering is part of being human.\"", "\"May I be kind to myself in this moment.\"", "Place one hand on your heart if it feels right. Breathe slowly."], "note": "This is not toxic positivity. It is choosing not to add self-cruelty to an already difficult moment.", "ex": [], "group": "kind", "run": "steps", "mins": 4}, {"id": "anx6", "cond": "anx", "src": "When Anxiety Runs the Show", "name": "Physiological Sigh", "best": "Acute anxiety spike, panic feeling, tight chest, sudden overwhelm", "intro": "The physiological sigh is the fastest scientifically validated way to reduce physiological arousal. It works by deflating the small air sacs in your lungs that collapse during stress, and by extending the exhale — which activates the parasympathetic nervous system (your body's built-in calm-down mechanism) almost immediately.", "steps": ["Inhale fully through your nose.", "At the top of the inhale, take one more short sniff to fully inflate your lungs.", "Exhale slowly and completely through your mouth — as long as you can.", "Repeat 2–3 times."], "note": "Even one double-inhale/long-exhale cycle measurably lowers heart rate. You can do this anywhere, anytime — in a meeting, in your car, in a grocery store line — without anyone noticing.", "ex": [], "group": "body", "run": "breath", "mins": 1}, {"id": "anx7", "cond": "anx", "src": "When Anxiety Runs the Show", "name": "The 5-4-3-2-1 Grounding Method", "best": "Dissociation, racing thoughts, feeling untethered, overwhelm, panic", "intro": "This sensory grounding exercise anchors your attention to the present moment, interrupting the anxiety cycle's characteristic future-focus. When the nervous system is flooded, the senses are the fastest doorway back to the present.", "steps": ["Name aloud or in writing: 5 things you can SEE right now", "4 things you can physically TOUCH (and touch them)", "3 things you can HEAR", "2 things you can SMELL", "1 thing you can TASTE"], "note": "Move slowly through each sense. The goal is not speed — it is presence. Each item you name is one moment your nervous system is not in the future.", "ex": [], "group": "body", "run": "steps", "mins": 4}, {"id": "anx8", "cond": "anx", "src": "When Anxiety Runs the Show", "name": "The Worry Postponement Technique", "best": "Chronic worry, intrusive thoughts throughout the day, difficulty concentrating", "intro": "Rooted in Cognitive Behavioral Therapy (CBT), this technique reduces the grip of anxious thoughts by containing them — rather than suppressing them — within a designated time window. The key distinction: this is not about avoiding your worries. It is about deciding when to meet them.", "steps": ["Designate one 15-minute \"worry window\" each day (not within 2 hours of bedtime).", "When an anxious thought arrives outside that window, write it down briefly: \"Worry about X — save for 5pm.\"", "Firmly but gently redirect your attention: \"I'll think about this during my worry time.\"", "During your worry window, sit with your list. Think through what you wrote, apply the Three-Question Reset (Tool 6), then close the window intentionally."], "note": "The goal is not to solve every worry — it is to give anxiety a container instead of free rein. Over time, many people find their worries feel less urgent when they meet them on purpose.", "ex": ["Worry about X — save for 5pm.", "I'll think about this during my worry time."], "group": "thoughts", "run": "steps", "mins": 3}, {"id": "anx9", "cond": "anx", "src": "When Anxiety Runs the Show", "name": "Progressive Muscle Relaxation (Brief Version)", "best": "Body tension, physical anxiety symptoms, difficulty sleeping, chronic stress", "intro": "Anxiety lives in the body, often long before it reaches conscious awareness. Progressive Muscle Relaxation (PMR) systematically releases tension your body has been holding — frequently without your realizing it. The contrast between tension and release activates a deep physical relaxation response.", "steps": ["Tense each muscle group firmly for 5 seconds.", "Release completely. Notice the contrast — the difference between holding and letting go.", "Move through: feet → calves → thighs → stomach → hands → arms → shoulders → face."], "note": "Many people discover they have been holding significant tension in their jaw, shoulders, or stomach without awareness. This technique can be done lying down, seated, or even at a desk with modifications.", "ex": [], "group": "body", "run": "steps", "mins": 2}, {"id": "anx10", "cond": "anx", "src": "When Anxiety Runs the Show", "name": "The Cognitive Defusion Technique", "best": "Sticky thoughts, catastrophic thinking, \"what if\" spirals, rigid thought loops", "intro": "From Acceptance and Commitment Therapy (ACT), cognitive defusion creates psychological distance between you and your thoughts — so you can observe them rather than be consumed by them. The goal is not to eliminate the thought, but to change your relationship with it.", "steps": ["“I notice I am having the thought that ___________.”", "“My mind is telling me ___________. That is interesting.”", "“There goes the ‘___________’ story again.”"], "note": "You are not arguing with the thought or trying to make it go away. You are stepping back from it — like watching a cloud pass across the sky. The cloud is still there. You simply are no longer inside it.", "ex": [], "group": "thoughts", "run": "steps", "mins": 2}, {"id": "anx11", "cond": "anx", "src": "When Anxiety Runs the Show", "name": "The Three-Question Reset", "best": "Catastrophizing, fortune-telling, worst-case spiral thinking, rumination", "intro": "When anxiety convinces you that something catastrophic is certain, these three questions interrupt the cognitive distortion and invite your thinking brain back into the conversation.", "steps": ["“Is this actually happening right now, or am I anticipating something that hasn't occurred?”", "“What is the most realistic — not best, not worst — outcome here?”", "“What would I say to someone I love if they were thinking this?”"], "note": "Write your answers down when possible. The act of writing externalizes the thought and makes it significantly easier to evaluate with honesty and compassion.", "ex": [], "group": "thoughts", "run": "steps", "mins": 2}, {"id": "spi12", "cond": "spi", "src": "Stop Spiraling Thoughts", "name": "The 5-Minute Spiral Interrupt", "best": "", "intro": "Read through these steps before using them. Then, when a spiral begins, you can return here — or simply recall the sequence from memory. Do each step as fully as you can. You cannot do this wrong.", "steps": ["0:00–0:30 · Step 1 — Pause. Name what is happening, out loud or in writing: “I am spiraling right now.” Don’t try to fix it. Don’t argue with it. Just name it. Research in affective neuroscience shows that labeling an emotional state activates the prefrontal cortex — the brain’s rational center — and begins to interrupt the amygdala’s alarm signal. Naming is not weakness. Naming is the first act of regulation.", "0:30–1:30 · Step 2 — Ground. Choose one grounding anchor and use it fully: Option A — Physical: Place both feet flat on the floor. Press your palms firmly onto your thighs. Notice the weight of your body in the chair. Breathe. Option B — Breath: Inhale for 4 counts. Hold for 2. Exhale slowly for 6. Repeat three times. This extended exhale activates the parasympathetic nervous system. Option C — Sensory: Name 3 things you can see right now. 2 things you can touch. 1 thing you can hear. Say them aloud if you can.", "1:30–2:30 · Step 3 — Witness. Say or write the following: “I notice I am thinking [name the thought]. This is a thought, not a fact.” Repeat this with as many thoughts as feel present. Simply observe them — without arguing, without accepting them as truth, without pushing them away.", "2:30–4:00 · Step 4 — Redirect. Choose one intentional redirection: Option A — Ask: “What do I know to be true right now — not what I fear, but what I actually know?” Option B — Ask: “What is one thing within my control in this moment?” Option C — Write: Brain-dump every spiraling thought onto paper for 60 seconds. Write fast, without editing. Then physically set the paper aside.", "4:00–5:00 · Step 5 — Return. Return to the present moment with one intentional, concrete action. It can be very small: Take a slow sip of water. Send one text to a person you trust — even just to say you’re thinking of them. Step outside for 60 seconds and feel the air. Name one thing you are genuinely grateful for — something real, something felt."], "note": "After the 5 Minutes: The spiral may not be entirely gone when the five minutes end — and that is not a failure. The goal was never to achieve effortless calm or to make the thoughts disappear completely. The goal was to interrupt the momentum: to slow the loop, ease the spin-out, and create enough space for your nervous system to settle. Progress over perfection — every single time.", "ex": [], "group": "thoughts", "run": "steps", "mins": 4}];
+const SPI_SS=[{"time": "0:00–0:30", "title": "Step 1 — Pause", "instruction": "Name what is happening, out loud or in writing:", "say": "I am spiraling right now.", "body": "Don’t try to fix it. Don’t argue with it. Just name it. Research in affective neuroscience shows that labeling an emotional state activates the prefrontal cortex — the brain’s rational center — and begins to interrupt the amygdala’s alarm signal. Naming is not weakness. Naming is the first act of regulation.", "options": [], "why": "The act of putting language to an experience creates a small but critical distance between you and the spiral. You shift from being inside the experience to observing it."}, {"time": "0:30–1:30", "title": "Step 2 — Ground", "instruction": "Choose one grounding anchor and use it fully:", "say": "", "body": "", "options": ["Option A — Physical: Place both feet flat on the floor. Press your palms firmly onto your thighs. Notice the weight of your body in the chair. Breathe.", "Option B — Breath: Inhale for 4 counts. Hold for 2. Exhale slowly for 6. Repeat three times. This extended exhale activates the parasympathetic nervous system.", "Option C — Sensory: Name 3 things you can see right now. 2 things you can touch. 1 thing you can hear. Say them aloud if you can."], "why": "You are anchoring your attention in the present moment — not in the spiral’s timeline. Spirals live in the past or the future. Grounding lives in right now."}, {"time": "1:30–2:30", "title": "Step 3 — Witness", "instruction": "Say or write the following:", "say": "I notice I am thinking [name the thought]. This is a thought, not a fact.", "body": "Repeat this with as many thoughts as feel present. Simply observe them — without arguing, without accepting them as truth, without pushing them away.", "options": [], "why": "This practice is called cognitive defusion, drawn from Acceptance and Commitment Therapy (ACT). By observing the thought rather than fusing with it, you create distance. You are the observer — not the thought itself. You are the sky, not the storm."}, {"time": "2:30–4:00", "title": "Step 4 — Redirect", "instruction": "Choose one intentional redirection:", "say": "", "body": "", "options": ["Option A — Ask: “What do I know to be true right now — not what I fear, but what I actually know?”", "Option B — Ask: “What is one thing within my control in this moment?”", "Option C — Write: Brain-dump every spiraling thought onto paper for 60 seconds. Write fast, without editing. Then physically set the paper aside."], "why": "You are not suppressing the thoughts — suppression typically increases their intensity. You are choosing, deliberately, where your attention goes next. This is agency, not avoidance."}, {"time": "4:00–5:00", "title": "Step 5 — Return", "instruction": "Return to the present moment with one intentional, concrete action. It can be very small:", "say": "", "body": "", "options": ["Take a slow sip of water.", "Send one text to a person you trust — even just to say you’re thinking of them.", "Step outside for 60 seconds and feel the air.", "Name one thing you are genuinely grateful for — something real, something felt."], "why": "This step signals to your nervous system that the perceived threat has passed and you are safe enough to re-engage with your life. It is a declaration — however quiet — that you are back."}];
+const TOOLS=TOOLS_RAW.map(t=>/5-Minute/.test(t.name)?{...t,mins:5,ss:SPI_SS}:t);
+const SCR=[{"cond": "dep", "src": "Lifting the Fog", "who": "self", "title": "When you can't get out of bed", "text": "I don't have to do everything today. I just have to do one thing. One thing is enough. What is the smallest possible thing I can do right now?"}, {"cond": "dep", "src": "Lifting the Fog", "who": "self", "title": "When the inner critic is loud", "text": "I am not failing. I am struggling, and struggling is not the same as failing. I am a person who is doing the best I can with a very heavy load. That deserves compassion, not criticism."}, {"cond": "dep", "src": "Lifting the Fog", "who": "self", "title": "When you feel numb and disconnected", "text": "The numbness is not permanent. It is my nervous system's way of protecting me from being overwhelmed. I don't have to force feeling. I can be here, in this moment, and let it be enough."}, {"cond": "dep", "src": "Lifting the Fog", "who": "self", "title": "When you feel like a burden to others", "text": "My depression is telling me I am a burden. Depression lies. The people who love me want me here. I don't have to earn my place in anyone's life."}, {"cond": "dep", "src": "Lifting the Fog", "who": "self", "title": "When nothing feels worth it", "text": "I don't have to feel motivated to take one step. I just have to take one step. One step does not require hope — it only requires my feet."}, {"cond": "dep", "src": "Lifting the Fog", "who": "self", "title": "When you compare yourself to who you used to be", "text": "That version of me was real. This version of me is also real. I am not permanently broken — I am going through something hard. I can be patient with myself the way I would be patient with someone I love."}, {"cond": "dep", "src": "Lifting the Fog", "who": "others", "title": "To a loved one when you need support", "text": "I'm having a really hard time right now. I don't need you to fix it. I just need you to know and to stay close. Can you do that?"}, {"cond": "dep", "src": "Lifting the Fog", "who": "others", "title": "To someone who says \"just think positive\"", "text": "I know you're trying to help, and I appreciate that. What I'm experiencing goes a little deeper than mindset. What would help me most right now is [specific thing — company, a walk, a meal, just listening]."}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "self", "title": "When Anxiety Arrives Without Warning", "text": "My nervous system just activated. This is a physical response, not a prediction. I don't have to act on this feeling. I can let it move through me."}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "self", "title": "When the “What Ifs” Won't Stop", "text": "My mind is running through every possible bad outcome. That is what anxious minds do — they prepare for threat. I can acknowledge these thoughts without treating them as facts. Right now, I am safe."}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "self", "title": "When Your Body Feels the Anxiety Before Your Mind Does", "text": "I feel it in my body. That is okay. My body is trying to tell me something. I can slow down, breathe, and listen — without panicking."}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "self", "title": "When Anxiety Is Making You Want to Cancel, Avoid, or Hide", "text": "Part of me wants to avoid this. I know that avoidance will make the anxiety stronger over time. I can feel the anxiety and move forward anyway — even slowly. Even imperfectly."}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "self", "title": "When Anxiety Wakes You Up at Night", "text": "It's nighttime. My brain is problem-solving without the resources to do it well. These thoughts feel urgent — they are not. I can write them down and return to them in the morning. Right now, the only job I have is to rest."}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "others", "title": "To a Partner When Anxiety Is Affecting Your Behavior", "text": "I want you to know I'm really anxious right now. It's not about you. I might need a little space or I might need to talk through it — I'm not sure yet. Can I let you know what I need in a few minutes?"}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "others", "title": "At Work When Anxiety Is Affecting Focus", "text": "I'm having a hard morning. I'm going to take a short break to reset and I'll be back on track shortly."}, {"cond": "anx", "src": "When Anxiety Runs the Show", "who": "others", "title": "To a Friend Who Asks If You're Okay", "text": "Honestly, I've been dealing with a lot of anxiety lately. I'm working through it. I don't need advice — I mostly just needed to say it out loud."}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "self", "title": "When the thoughts won’t stop", "text": "I notice these thoughts are very loud right now. I don’t have to believe everything they’re telling me. I can let them move through me while I stay here."}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "self", "title": "When catastrophizing takes over", "text": "My brain is trying to prepare me for the worst. That’s not the same as the worst actually happening. Right now, I am safe. I can return to what is actually in front of me."}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "self", "title": "When you feel stuck or frozen", "text": "I don’t have to solve everything right now. I just have to take one breath. One step. I can do that."}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "self", "title": "When self-criticism joins the spiral", "text": "I am not failing. I am a person who is struggling, and struggling is part of being human. I deserve the same compassion I would give to someone I love."}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "self", "title": "When you wake up in a spiral", "text": "My mind started working before my body was ready. I can slow down. The day is not decided yet."}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "others", "title": "To a partner or loved one", "text": "I’m in my head right now and I’m not okay. I don’t need you to fix it. I just need [a few minutes / to know you’re here / to talk it out]. Can you do that?"}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "others", "title": "To a colleague or manager", "text": "I’m having a hard moment and I need a few minutes to reset. I’ll be right back."}, {"cond": "spi", "src": "Stop Spiraling Thoughts", "who": "others", "title": "To yourself in a journal", "text": "Today, my mind took me somewhere hard. Here’s what I noticed: [write]. Here’s what I want to remember: [write]. Here’s what I need right now: [write]."}];
+const GROUPS=[{"key": "body", "label": "Calm my body", "icon": "ti-wind"}, {"key": "thoughts", "label": "Work with my thoughts", "icon": "ti-brain"}, {"key": "moving", "label": "Get moving", "icon": "ti-walk"}, {"key": "kind", "label": "Be kinder to myself", "icon": "ti-heart-handshake"}];
+const ICON={body:'ti-wind',thoughts:'ti-brain',moving:'ti-walk',kind:'ti-heart-handshake'};
+const COND={all:'All',dep:'Depression',anx:'Anxiety',spi:'Spirals'};
+let tFilter='all',saved=new Set(),curTool=null,stI=0,scWho='self';
+// profile → "for you": what the person checked maps to Best For words
+function forYou(t){const b=(t.best||'').toLowerCase();
+  const sig=[];if(prof.behavior.has(3)||prof.body.has(0))sig.push('bed','motivation','paralysis','fatigue');
+  if(prof.mind.has(2)||prof.mind.has(5))sig.push('critic','self-critic','shame');
+  if(prof.behavior.has(0)||prof.behavior.has(1))sig.push('withdrawal','isolation','anhedonia');
+  if(prof.mind.has(1))sig.push('fog','overwhelm');
+  return sig.some(w=>b.includes(w));}
+(function(){const first=TOOLS.filter(forYou).slice(0,2).map(t=>t.id);const br=TOOLS.find(t=>t.run==='breath');saved=new Set([...(br?[br.id]:[]),...first]);})();
+
+function renderTools(){
+  document.getElementById('tool-filter').innerHTML=Object.entries(COND).map(([k,v])=>`<button class="${k===tFilter?'on':''}" onclick="tFilter='${k}';renderTools()">${v}</button>`).join('');
+  const list=TOOLS.filter(t=>tFilter==='all'||t.cond===tFilter);
+  let h='';
+  const sv=TOOLS.filter(t=>saved.has(t.id));
+  if(sv.length&&tFilter==='all'){h+=`<div class="section-title">Saved</div><div class="saved-row">`+sv.map(t=>`<button class="saved-card" onclick="openTool('${t.id}')"><i class="ti ${ICON[t.group]}"></i><span><div class="t">${t.name.replace(/^The /,'')}</div><div class="m">${t.mins} min</div></span></button>`).join('')+`</div>`;}
+  h+=`<div class="section-title">Scripts</div><div class="row" style="gap:10px">
+    <button class="card suggest" style="flex:1;flex-direction:column;align-items:flex-start;gap:6px" onclick="openScripts('self')"><i class="ti ti-quote" style="font-size:22px;color:var(--sage)"></i><span class="t" style="font-size:15px">Words for me</span></button>
+    <button class="card suggest" style="flex:1;flex-direction:column;align-items:flex-start;gap:6px;background:var(--lav-soft)" onclick="openScripts('others')"><i class="ti ti-message-heart" style="font-size:22px;color:var(--lav)"></i><span class="t" style="font-size:15px">Words for others</span></button></div>`;
+  GROUPS.forEach(g=>{const ts=list.filter(t=>t.group===g.key);if(!ts.length)return;
+    ts.sort((a,b)=>forYou(b)-forYou(a));
+    h+=`<div class="section-title">${g.label}</div><div class="card" style="padding:2px 14px">`+ts.map(t=>`<button class="tool-row" onclick="openTool('${t.id}')"><span class="ic"><i class="ti ${ICON[t.group]}"></i></span><span class="grow"><div class="t">${t.name.replace(/^The /,'')}${forYou(t)?'<span class="for-you">For you</span>':''}</div><div class="m">${t.mins} min${t.best?' · '+t.best:''}</div></span><i class="ti ti-chevron-right" style="color:var(--muted)"></i></button>`).join('')+`</div>`;});
+  h+=`<p class="hint" style="margin-top:16px"><i class="ti ti-sparkles"></i><span>"For you" comes from what you checked in your profile.</span></p>`;
+  document.getElementById('tools-body').innerHTML=h;
+}
+function openTool(id){
+  curTool=TOOLS.find(t=>t.id===id);const t=curTool;go('tool');
+  const hb=document.getElementById('tool-heart');hb.classList.toggle('on',saved.has(id));hb.innerHTML=`<i class="ti ti-heart${saved.has(id)?'-filled':''}"></i>`;
+  hb.onclick=()=>{saved.has(id)?saved.delete(id):saved.add(id);toast(saved.has(id)?'Saved to your tools':'Removed');openToolRefresh();};
+  document.getElementById('tool-body').innerHTML=`<span class="src-tag src-${t.cond}">${t.src}</span>
+    <h1 style="margin-top:12px">${t.name}</h1>
+    ${t.best?`<p class="sub"><b style="color:var(--ink)">Best for:</b> ${t.best}</p>`:''}
+    ${t.intro?`<p style="font-size:16px;line-height:1.5;margin:14px 0 0">${t.intro}</p>`:''}
+    <div class="section-title">How it works</div><div class="card" style="padding:4px 16px"><ol class="how">${t.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol></div>
+    ${t.ex.length?`<div class="section-title">For example</div><div class="card" style="font-size:15px;line-height:1.55">${t.ex.map(e=>`<div style="margin:3px 0">${e}</div>`).join('')}</div>`:''}
+    ${t.note?`<div class="card note-card" style="margin-top:12px"><b>Worth remembering.</b> ${t.note}</div>`:''}`;
+  const sb=document.getElementById('tool-start');
+  sb.innerHTML=t.run==='timer'?'<i class="ti ti-player-play"></i>Start two minutes':t.run==='breath'?'<i class="ti ti-wind"></i>Breathe with me':'<i class="ti ti-player-play"></i>Walk me through it';
+  sb.onclick=()=>t.run==='timer'?startTimer():t.run==='breath'?startBreath(t.name):startSteps();
+}
+function openToolRefresh(){const id=curTool.id,hb=document.getElementById('tool-heart');hb.classList.toggle('on',saved.has(id));hb.innerHTML=`<i class="ti ti-heart${saved.has(id)?'-filled':''}"></i>`;}
+function startSteps(){stI=0;go('steps');document.getElementById('st-title').textContent=curTool.name;renderStep();}
+function renderStep(){const t=curTool,n=t.steps.length;
+  document.getElementById('st-dots').innerHTML=t.steps.map((_,i)=>`<span class="${i<=stI?'on':''}"></span>`).join('');
+  document.getElementById('st-count').textContent=`Step ${stI+1} of ${n}`;
+  if(t.ss){const x=t.ss[stI],el=document.getElementById('st-text');
+    document.getElementById('st-count').textContent=x.time+' · Step '+(stI+1)+' of '+n;
+    el.style.fontSize='30px';el.textContent=x.title.replace(/^Step \d+ — /,'');
+    document.getElementById('st-ex').innerHTML=`<p style="font-size:17px;line-height:1.45;margin:10px 0 0">${x.instruction}</p>`
+      +(x.say?`<p class="script" style="font-size:23px;margin:14px 0 0">“${x.say}”</p>`:'')
+      +x.options.map(o=>{const [h,...r]=o.split(': ');return `<button class="opt" style="display:block" onclick="this.parentNode.querySelectorAll('.opt').forEach(b=>b.classList.remove('on'));this.classList.add('on')"><b style="font-family:var(--round)">${h.replace(/^Option [A-Z] — /,'')}</b><div style="font-size:15px;color:var(--muted);margin-top:4px">${r.join(': ')}</div></button>`}).join('')
+      +`<details style="margin-top:16px;font-size:14px;color:var(--muted);line-height:1.5"><summary style="cursor:pointer;font-weight:600">Why this works</summary><p style="margin:6px 0 0">${x.why}</p></details>`;
+    document.getElementById('st-next').innerHTML=stI===n-1?'<i class="ti ti-check"></i>Done':'Next';return;}
+  const el=document.getElementById('st-text');el.textContent=t.steps[stI];el.style.fontSize=t.steps[stI].length>220?'19px':t.steps[stI].length>120?'23px':'27px';
+  document.getElementById('st-ex').innerHTML=(stI===n-1&&t.ex.length)?`<div class="card" style="margin-top:20px;font-size:15px;line-height:1.5">${t.ex[0]}</div>`:'';
+  document.getElementById('st-next').innerHTML=stI===n-1?'<i class="ti ti-check"></i>Done':'Next';}
+function stNext(){if(stI<curTool.steps.length-1){stI++;renderStep();}else go('checkin');}
+
+function openScripts(who){scWho=who;go('scripts');renderScripts();}
+function renderScripts(){
+  document.getElementById('sc-head').textContent=scWho==='self'?'Words for me':'Words for others';
+  document.getElementById('sc-sub').textContent=scWho==='self'?'You don\'t have to believe them fully. Just say them, slowly.':'For when you can\'t find the words. Copy it, change it, or send it as it is.';
+  document.getElementById('sc-seg').innerHTML=[['self','For me'],['others','For others']].map(([k,v])=>`<button class="${k===scWho?'on':''}" onclick="scWho='${k}';renderScripts()">${v}</button>`).join('');
+  const list=SCR.filter(x=>x.who===scWho);
+  document.getElementById('sc-body').innerHTML=list.map((x,i)=>{const idx=SCR.indexOf(x);
+    const txt=x.text.replace(/\[([^\]]+)\]/g,'<span class="fill">$1</span>');
+    return scWho==='self'
+     ?`<button class="card script-card" onclick="readScript(${idx})"><span class="src-tag src-${x.cond}" style="float:right">${COND[x.cond]}</span><div class="t">${x.title}</div><div class="q clip">“${x.text}”</div></button>`
+     :`<div class="card"><div class="card-head"><span class="t" style="font-size:16px">${x.title}</span><span class="src-tag src-${x.cond}">${COND[x.cond]}</span></div><div class="q" style="font:17px/1.5 Georgia,serif;margin-top:8px">“${txt}”</div>
+       <div class="foot-row" style="margin-top:12px"><button class="btn soft" style="min-height:44px;font-size:15px" onclick="toast('Copied')"><i class="ti ti-copy"></i>Copy</button><button class="btn" style="min-height:44px;font-size:15px" onclick="toast('Opens Messages with this text')"><i class="ti ti-send"></i>Send to ${plan.person.name}</button></div></div>`;}).join('');
+}
+function readScript(i){const x=SCR[i];stopAll();go('script');
+  document.getElementById('script-label').textContent=x.title;
+  document.getElementById('script-text').textContent='“'+x.text+'”';
+  document.getElementById('script-src').textContent='From '+x.src;
+  const alt=document.getElementById('script-alt');alt.textContent='Save to my plan';alt.onclick=()=>toast('Added to your First Aid Plan');}
+
+
+/* ---------- v4: Learn ---------- */
+const LEARN={"dep": {"title": "Depression", "tag": "More than sadness", "icon": "ti-cloud-fog", "src": "Lifting the Fog", "tools": ["Two-Minute Start", "Self-Compassion Break"], "welcome": "If you are reading this, that is already something. Depression has a way of making even the smallest acts — picking up a guide, opening a page, looking for something that might help — feel monumental. So before we go any further: that took courage, and it counts.", "sections": [{"heading": "More Than Sadness", "paragraphs": ["Depression is one of the most widely misunderstood human experiences. We tend to picture it as deep, visible sadness — tears, darkness, a person who clearly looks like they are suffering. But for many people, depression looks nothing like that. It looks like getting through the day without feeling anything. It looks like a kitchen you stand in for twenty minutes, unable to decide what to make for dinner.", "Depression frequently presents not as sadness, but as:"], "bullets": [{"term": "Numbness", "text": "a muted, flat quality to life; feeling nothing rather than feeling bad"}, {"term": "Heaviness", "text": "physical and emotional weight that makes even small tasks feel enormous"}, {"term": "Anhedonia", "text": "the loss of the ability to experience pleasure, even from things that used to bring joy"}, {"term": "Cognitive fog", "text": "slowed thinking, difficulty concentrating or making decisions"}, {"term": "Deep fatigue", "text": "tiredness that sleep doesn't fix"}, {"term": "Disconnection", "text": "from relationships, from routines, and from a sense of self"}], "table": [], "pullQuote": ""}, {"heading": "Your Brain on Depression", "paragraphs": ["When depression takes hold, the prefrontal cortex — the part responsible for planning, motivation, decision-making, and emotional regulation — becomes less active. This is why initiating tasks feels nearly impossible, why decisions feel overwhelming, and why the future can seem unreachable. It is not a failure of willpower.", "At the same time, the amygdala — the brain's threat-detection center — becomes hyperactive. And the dopamine pathways, which signal that action is worth taking, become depleted, leaving a person in a state where nothing seems worth the effort."], "bullets": [], "table": [], "pullQuote": "This is not weakness. This is neuroscience. Understanding what is happening inside your brain does not make depression disappear — but it does change the story you tell yourself about why you are struggling."}, {"heading": "The Depression Trap", "paragraphs": ["Depression sustains itself. It creates a self-reinforcing cycle that can be very difficult to exit without deliberate, gentle interruption:"], "bullets": [], "table": [["Step", "What happens"], ["1", "Low mood and fatigue lead to withdrawal from activities, relationships, and routines."], ["2", "Withdrawal removes the primary sources of pleasure, connection, and accomplishment from daily life."], ["3", "Without these sources, mood drops further, hopelessness increases, and fatigue deepens."], ["4", "Deeper low mood drives further withdrawal — and the cycle continues."]], "pullQuote": "This is why \"just doing something\" is simultaneously the hardest and one of the most effective interventions available — approached not with pressure, but with radical gentleness."}], "isNot": ["Depression is not a choice or a character flaw.", "Depression does not mean you are ungrateful for what you have.", "Feeling numb is not the same as not caring.", "Depression is not permanent — even when it feels that way.", "Needing help does not mean you are weak. It means you are human."], "closing": "The fog is not who you are. Underneath it, you are still there. Still worth finding. Still worth reaching for. Still whole — even in the middle of the hard.", "mins": 2}, "anx": {"title": "Anxiety", "tag": "An alarm that won't switch off", "icon": "ti-bell-ringing", "src": "When Anxiety Runs the Show", "tools": ["Physiological Sigh", "5-4-3-2-1"], "welcome": "If you picked up this guide, anxiety has probably been loud lately. Maybe it has been waking you up at 2am, hijacking your focus, or making perfectly ordinary moments feel impossible. Whatever brought you here, I want you to know: this guide will not ask you to think positively, push through, or simply try harder.<br><br>What it will do is help you understand what is actually happening inside your body and your mind — and offer you real, evidence-based tools for real, human moments. You deserve more than platitudes. This is a starting place for something different.<br><br>— Kristen Russell, LPC", "sections": [{"heading": "It Was Never the Enemy", "paragraphs": ["Anxiety is not a flaw in your design. It is one of your oldest and most loyal protective systems — a biological alarm network that evolved over hundreds of thousands of years to keep you alive. At the center of this system is the amygdala, an almond-shaped structure deep in the brain that continuously scans your environment for threat. When it perceives danger — real or imagined — it fires an immediate signal that triggers the release of adrenaline and cortisol, flooding your body with energy to fight, flee, or freeze.", "This is not a malfunction. In a genuinely dangerous situation, this response is brilliant. It sharpens your senses, accelerates your heart, tightens your muscles, and narrows your attention to exactly what matters. It has saved human lives — including, in many ways, yours.", "The problem is not anxiety itself. The problem arises when the alarm fires constantly — at low threats, ambiguous situations, or no threat at all. When the system is chronically activated without resolution, it becomes suffering. Think of the person lying awake at 2am, heart quietly racing, rehearsing a difficult conversation that hasn't happened yet — and may never happen exactly as imagined. The amygdala cannot always tell the difference between a real threat and a thought about a threat. That distinction is where our work begins."], "bullets": [], "table": [], "pullQuote": ""}, {"heading": "The Anxious Mind vs. The Calm Mind", "paragraphs": ["Understanding these two internal states — not as opposites, but as a spectrum — is one of the most useful frameworks in anxiety work.", "The goal of anxiety work is not to become a person who never feels anxious. Anxiety is a normal, human experience — it will visit you for the rest of your life, and that is okay. The goal is to expand the time you spend in the calm-enough state, and to build the skills to move back there when anxiety pulls you away."], "bullets": [], "table": [["The Anxious Mind", "The Calm Mind"], ["Hypervigilant — scanning for threat", "Present — grounded in the current moment"], ["Future-focused — anticipating danger", "Flexible — able to hold uncertainty"], ["Catastrophizing — gravitating toward worst-case", "Realistic — able to evaluate probability"], ["Body braced — tension, shallow breath, guarded", "Body regulated — open, breathing fully, relaxed"], ["Narrowed — difficulty accessing creativity or connection", "Expanded — resourceful, connected, clear"]], "pullQuote": ""}, {"heading": "The Anxiety Cycle", "paragraphs": ["Anxiety follows a predictable pattern. Understanding this cycle does not make it disappear — but it makes it far less frightening, because you begin to recognize where you are within it and what you can do at each stage.", "Here is the critical piece: avoidance maintains the cycle. Every time we avoid something anxiety has flagged as threatening, we send the brain a confirmation: the threat was real, and you were right to be alarmed. The alarm system learns to fire even earlier and louder the next time. This is not a character flaw — it is a deeply human, completely understandable response to discomfort. Understanding it with compassion is the first step toward changing it."], "bullets": [], "table": [["Step", "What Happens", "What It Looks Like"], ["1. TRIGGER", "An internal or external cue activates the brain's alarm", "A text from your boss. A physical sensation. A \"what if\" thought. A memory. A smell."], ["2. THOUGHT", "The mind interprets the trigger as dangerous", "\"Something is wrong.\" \"I can't handle this.\" \"This is going to go badly.\""], ["3. BODY RESPONSE", "Physical symptoms of the stress response activate", "Racing heart, tight chest, shallow breath, stomach drop, muscle tension, dizziness."], ["4. BEHAVIOR", "Actions taken in response to the anxiety", "Avoidance, reassurance-seeking, over-planning, shutting down, staying busy, isolating."]], "pullQuote": ""}], "isNot": ["Feeling anxious does not mean something bad is about to happen. Anxiety is a feeling generated by the body's alarm system — not a prediction of the future.", "Anxiety does not mean you are weak or broken. Some of the most capable, sensitive, and emotionally intelligent people struggle deeply with anxiety. It is a human experience, not a personal failing.", "Having anxious thoughts does not make them true. Thoughts are mental events — not facts, not prophecies. They deserve curiosity, not automatic belief.", "Anxiety is not permanent — it rises, peaks, and always passes. Every anxiety wave, no matter how intense, has a biological ceiling and will subside. You have survived every one so far."], "closing": "You are not your anxiety. You never were.", "mins": 3}, "spi": {"title": "Spirals", "tag": "When thoughts loop", "icon": "ti-refresh", "src": "Stop Spiraling Thoughts", "tools": ["Spiral Interrupt", "Three-Question Reset"], "welcome": "Welcome. If this guide found its way to you, something in you is already reaching toward something different — and that matters more than you know. The pages ahead are not about fixing you. They are about helping you understand what is happening in your mind and body when thoughts take over, and giving you real, grounded tools to find your way back to yourself.<br><br>You do not need to be in a crisis to use this guide. You simply need to be willing — and you already are.", "sections": [{"heading": "What’s Actually Happening When Your Thoughts Spiral", "paragraphs": ["Before we can interrupt a spiral, we need to understand it. Not to over-analyze it, and not to be afraid of it — but to see it clearly enough that it loses some of its power. This section offers you the science behind what is happening in your brain and body, written in plain language, without clinical jargon or judgment."], "bullets": [], "table": [], "pullQuote": ""}, {"heading": "Your Brain Is Trying to Protect You", "paragraphs": ["At the center of your brain sits a small, almond-shaped structure called the amygdala. Its entire job is to detect threats and trigger a response — fast. It does not pause to consider whether something is actually dangerous. It responds first and asks questions later. When a thought, memory, sensation, or situation activates the amygdala, your brain goes into protective mode: stress hormones are released, your attention narrows, and your thinking becomes focused on survival rather than problem-solving.", "Thought spirals are one of the ways this protective system plays out in the mind. When the brain perceives a threat — even an emotional or social one — it begins scanning for danger, replaying scenarios, and anticipating outcomes. This is not a character flaw. It is a survival pattern. The brain is doing exactly what it was designed to do. The problem is that in modern life, the \"threat\" is often an email, a memory, a worry about the future, or a difficult conversation — and the brain's alarm system does not always know the difference.", "It helps to understand the difference between problem-solving thinking and rumination. Problem-solving moves forward: it generates options, takes action, and reaches resolution. Rumination circles back. It revisits the same fear, the same regret, the same uncertainty — without moving toward any answer. A spiral often begins as the brain's attempt to solve something, and then gets caught in a loop. One anxious thought — \"What if they're upset with me?\" — becomes: \"I must have done something wrong. I always do this. Something is wrong with me. I'm going to ruin everything.\" Within seconds, you are no longer thinking about a text message. You are in a story about who you are as a person."], "bullets": [], "table": [], "pullQuote": "Remember This\nSpiraling is not a sign of weakness. It is your nervous system doing its best to keep you safe. The goal is not to shame the spiral — it is to understand it well enough to gently step out of it."}, {"heading": "The Anatomy of a Spiral", "paragraphs": ["Most thought spirals follow a recognizable pattern. Learning to identify the pattern while you are in it — or just after — is one of the most powerful things you can do. There are three primary phases:", "None of this means something is wrong with you. It means you are human, with a nervous system that is doing its best."], "bullets": [{"term": "Phase 1 — The Trigger", "text": "Something activates the nervous system. This can be an external event (a comment someone made, a news story, a look across the room), a physical sensation (a tight chest, a racing heart), a memory that surfaces unexpectedly, or a thought that seems to appear from nowhere. The trigger is not always obvious — and that is okay. What matters is that something shifted, and the brain took notice."}, {"term": "Phase 2 — The Loop", "text": "Once activated, the mind begins to generate thoughts rapidly — and those thoughts begin to distort. Common patterns include catastrophizing (assuming the worst possible outcome), mind-reading (believing you know what others are thinking), and fortune-telling (treating imagined futures as certainties). The loop is repetitive by nature. The same fears resurface, dressed in slightly different language, cycling back again and again without resolution."}, {"term": "Phase 3 — The Spin-Out", "text": "As the loop intensifies, the emotional system becomes flooded. Some people experience this as overwhelm, tears, or panic. Others shut down, go numb, or withdraw. Some become hyperactivated — restless, irritable, unable to concentrate. The spin-out is the body and mind responding to what feels like an uncontained threat. It is exhausting, disorienting, and — for many people — deeply familiar."}], "table": [], "pullQuote": ""}], "isNot": ["It does not mean you are broken. Spiraling is a normal stress response, not evidence of a fundamental flaw in who you are.", "It does not mean the thought is true. A thought can feel absolutely certain and still be completely inaccurate. Intensity is not the same as accuracy.", "It does not mean you are losing your mind. Experiencing intrusive, repetitive, or distorted thoughts is one of the most common human experiences. You are not alone in this.", "It does not mean you are stuck forever. Patterns that were learned can be gently, compassionately interrupted — and over time, rewired. Change is not only possible; it is happening the moment you begin to notice."], "closing": "I am not my thoughts. I am the one noticing them — and that noticing is enough to begin again.", "mins": 4}};
+const LCOL={dep:['var(--sage-soft)','var(--sage)'],anx:['var(--lav-soft)','var(--lav)'],spi:['var(--amber-soft)','var(--amber)']};
+const readPages={dep:new Set([0,1]),anx:new Set(),spi:new Set()};
+let arK='dep',arI=0,remI=0;
+const REMINDERS=Object.entries(LEARN).flatMap(([k,v])=>v.isNot.map(t=>({k,t})));
+function pages(k){const L=LEARN[k];return [{type:'welcome'},...L.sections.map(x=>({type:'sec',x})),{type:'isnot'}];}
+function renderLearn(){
+  const r=REMINDERS[remI%REMINDERS.length];
+  document.getElementById('remind').innerHTML=`<div class="from"><i class="ti ti-quote"></i>From ${LEARN[r.k].src}</div><p class="q">${r.t}</p>
+    <div class="row" style="margin-top:14px;gap:8px"><button class="chip" onclick="remI++;renderLearn()">Another</button><button class="chip" onclick="toast('Saved to your reminders')"><i class="ti ti-bookmark"></i> Keep</button></div>`;
+  document.getElementById('topics').innerHTML=Object.entries(LEARN).map(([k,v])=>{const n=pages(k).length,done=readPages[k].size;
+    return `<button class="card topic" onclick="openArticle('${k}')"><span class="ic" style="background:${LCOL[k][0]};color:${LCOL[k][1]}"><i class="ti ${v.icon}"></i></span>
+      <span class="grow"><div class="t">${v.title}</div><div class="m">${v.tag} · ${v.mins} min</div>
+      <div class="prog"><b style="width:${Math.round(done/n*100)}%"></b></div><div class="m" style="font-size:12px;margin-top:4px">${done?(done>=n?'Read':`${done} of ${n} pages read · pick up where you left off`):`${n} short pages`}</div></span></button>`}).join('');
+}
+function openArticle(k){arK=k;const n=pages(k).length;arI=Math.min(readPages[k].size,n-1);go('article');renderArticle();}
+function arGo(d){const n=pages(arK).length;if(arI+d<0)return;if(arI+d>=n){go('learn');toast('That counts.');return;}arI+=d;renderArticle();}
+function renderArticle(){
+  const L=LEARN[arK],ps=pages(arK),p=ps[arI];readPages[arK].add(arI);
+  document.getElementById('ar-dots').innerHTML=ps.map((_,i)=>`<span class="${i<=arI?'on':''}"></span>`).join('');
+  document.getElementById('ar-eyebrow').textContent=`${L.title} · ${arI+1} of ${ps.length}`;
+  let h='';
+  if(p.type==='welcome'){h=`<h1>${L.tag}</h1><div class="pq" style="margin-top:14px">${L.welcome}</div><p class="sub" style="margin-top:14px">${ps.length-1} short pages. Stop whenever you like; it'll remember where you were.</p>`;}
+  else if(p.type==='sec'){const x=p.x;
+    h=`<h1>${x.heading}</h1>`+(x.paragraphs||[]).map(t=>`<p>${t}</p>`).join('')
+     +(x.bullets||[]).map(b=>b.term?`<div class="term"><b>${b.term}</b>${b.text.replace(/^[—–-]\s*/,'')}</div>`:`<div class="term">${b.text}</div>`).join('');
+    if(x.table&&x.table.length){const hd=x.table[0],rows=x.table.slice(1);
+      if(/^step$/i.test(hd[0])){
+        h+=`<div class="cycle">`+rows.map((r,i)=>{const lab=r[0].replace(/^\d+\.?\s*/,'');const L=lab?lab.charAt(0)+lab.slice(1).toLowerCase():'';
+          return `<div><span>${i+1}</span><span style="all:unset;flex:1">${L?`<b style="font-family:var(--round)">${L}</b><br>`:''}${r[1]}${r[2]?`<br><span style="all:unset;font-size:14px;color:var(--muted)">${r[2]}</span>`:''}</span></div>`}).join('')
+          +`<div class="back"><i class="ti ti-arrow-back-up"></i>and round again</div></div>`;
+      }else{
+        h+=`<div class="row" style="margin-top:16px;font:600 13px var(--sans)"><span style="flex:1;color:var(--help)">${hd[0]}</span><span style="flex:1;color:var(--sage)">${hd[1]}</span></div>`
+          +rows.map(r=>`<div class="row" style="gap:8px;margin-top:8px;align-items:stretch"><div class="term" style="flex:1;margin:0;background:var(--help-soft);border:none">${r[0]}</div><div class="term" style="flex:1;margin:0;background:var(--sage-soft);border:none">${r[1]}</div></div>`).join('');
+      }}
+    if(x.pullQuote)h+=`<div class="pq">${x.pullQuote.replace(/^Remember This\s*\n/i,'<div style="font:600 13px var(--sans);color:var(--lav);margin-bottom:6px">Remember this</div>').replace(/\n/g,'<br>')}</div>`;}
+  else{h=`<h1>What ${L.title.toLowerCase()} is not</h1><div class="card" style="margin-top:14px;padding:4px 16px">`+L.isNot.map(t=>`<div class="isnot"><i class="ti ti-circle-check"></i><span>${t}</span></div>`).join('')+`</div>`
+     +(L.closing?`<div class="pq">“${L.closing}”<div style="font:600 13px var(--sans);color:var(--lav);margin-top:10px">Kristen Russell, LPC</div></div>`:'')
+     +`<div class="section-title">Try one now</div>`+L.tools.map(n=>{const t=TOOLS.find(t=>t.name.includes(n));return t?`<button class="tool-row card" style="padding:12px 14px;margin-top:8px;border:1px solid var(--line)" onclick="openTool('${t.id}')"><span class="ic"><i class="ti ${ICON[t.group]}"></i></span><span class="grow"><div class="t">${t.name.replace(/^The /,'')}</div><div class="m">${t.mins} min${t.best?' · '+t.best:''}</div></span><i class="ti ti-chevron-right" style="color:var(--muted)"></i></button>`:''}).join('');}
+  document.getElementById('ar-body').innerHTML=h;
+  document.getElementById('ar-prev').style.visibility=arI?'visible':'hidden';
+  document.getElementById('ar-next').innerHTML=arI===ps.length-1?'<i class="ti ti-check"></i>Done':'Next';
+  document.querySelector('#article .scroll').scrollTop=0;
+}
+
+
+/* ---------- v5 polish: worry window, help people, today ---------- */
+const worries=[{t:'Whether I said the wrong thing to Maya',state:'wait'}];
+function renderToday(){const n=worries.filter(w=>w.state==='wait').length;
+  document.getElementById('worry-count').textContent=n?`${n} worr${n>1?'ies':'y'} parked until then`:'Nothing parked. Nice and quiet.';}
+function parkWorry(mode){go('park');const night=mode==='night';
+  document.getElementById('park-head').textContent=night?'Write it down for the morning':'Park it for later';
+  document.getElementById('park-sub').textContent=night?'Get it out of your head and onto the page. It will be here tomorrow; right now, your only job is to rest.':'A few words is enough. It\'ll be waiting at 5:00 pm, so you don\'t have to hold it until then.';
+  document.querySelector('#park .btn').innerHTML=night?'<i class="ti ti-moon"></i>Save it for the morning':'<i class="ti ti-clock-pause"></i>Save it for 5:00 pm';
+  document.getElementById('park-in').value='';renderPark();setTimeout(()=>document.getElementById('park-in').focus(),50);}
+function renderPark(){const w=worries.filter(w=>w.state==='wait');
+  document.getElementById('park-list').innerHTML=w.length?`<div class="card" style="padding:4px 14px">`+w.map(x=>`<div class="list-row" style="cursor:default"><i class="ti ti-clock lead" style="color:var(--lav)"></i><span class="grow">${x.t}</span></div>`).join('')+`</div>`:'<p class="sub">Nothing yet.</p>';}
+function saveWorry(){const el=document.getElementById('park-in'),v=el.value.trim();if(!v){el.focus();return;}
+  worries.push({t:v,state:'wait'});const night=document.getElementById('park-head').textContent.includes('morning');
+  back();toast(night?'Saved for the morning':'Saved for 5:00 pm');}
+function openWindow(){go('window');renderWindow();}
+function renderWindow(){const w=worries.filter(x=>x.state==='wait');
+  document.getElementById('win-list').innerHTML=w.length?w.map(x=>{const i=worries.indexOf(x);return `<div class="card" style="margin-top:12px">
+    <div style="font:600 18px/1.35 var(--round)">${x.t}</div>
+    <button class="chip" style="margin-top:10px" onclick="openTool(TOOLS.find(t=>t.name.includes('Three-Question')).id)"><i class="ti ti-help-circle"></i> Ask the three questions</button>
+    <div class="foot-row" style="margin-top:12px;gap:6px">
+      <button class="btn soft" style="min-height:44px;font-size:14px" onclick="worries[${i}].state='gone';renderWindow();toast('Let go')">Let it go</button>
+      <button class="btn ghost" style="min-height:44px;font-size:14px" onclick="worries[${i}].state='later';renderWindow();toast('Kept for tomorrow')">Tomorrow</button>
+      <button class="btn ghost" style="min-height:44px;font-size:14px" onclick="worries[${i}].state='act';renderWindow();toast('Added to Today')">Act on it</button></div></div>`}).join('')
+   :`<div class="card" style="margin-top:16px;text-align:center;padding:24px"><i class="ti ti-circle-check" style="font-size:32px;color:var(--sage)"></i><div style="font:600 18px var(--round);margin-top:8px">All looked at.</div><p class="sub" style="margin-top:4px">You can close the window now.</p></div>`;}
+function closeWindow(){worries.filter(w=>w.state==='later').forEach(w=>w.state='wait');go('today');toast('Window closed. That counts.');}
+function renderHelp(){const ini=n=>n.split(' ').map(w=>w[0]).join('').slice(0,2);
+  document.getElementById('help-people').innerHTML=`
+   <button class="help-row" style="margin-bottom:10px" onclick="toast('Opens Messages to ${plan.person.name}')"><span class="ic"><i class="ti ti-user-heart"></i></span><span><div class="t">${plan.person.name}</div><div class="m">Your person · ${plan.person.how}</div></span></button>
+   <button class="help-row" onclick="toast('Calls ${plan.counselor.name}')"><span class="ic"><i class="ti ti-stethoscope"></i></span><span><div class="t">${plan.counselor.name}</div><div class="m">Your counselor · ${plan.counselor.how}</div></span></button>`;}
+renderToday();
+
+
+/* ---------- review build: no real calls or texts ---------- */
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="tel:"],a[href^="sms:"]');if(!a)return;e.preventDefault();
+  const h=a.getAttribute('href');toast(h.startsWith('tel:')?'In the app, this calls '+h.slice(4):'In the app, this opens a text to '+h.slice(4).split(/[&?]/)[0]);},true);
+
+/* Liquid Glass review control and scroll-responsive capsules. */
+document.querySelectorAll('.player-foot .btn').forEach(b=>b.classList.add('glass'));
+const reduceGlassToggle=document.getElementById('reduce-glass-toggle');
+reduceGlassToggle.addEventListener('change',()=>document.documentElement.classList.toggle('reduce-glass',reduceGlassToggle.checked));
+const glassMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+document.querySelectorAll('.scroll').forEach(scroller=>{
+  let lastY=scroller.scrollTop,restTimer;
+  scroller.addEventListener('scroll',()=>{
+    const screen=scroller.closest('.screen'),bar=screen&&screen.querySelector('.tabbar');
+    if(!bar||!screen.classList.contains('on')||glassMotion.matches)return;
+    const y=scroller.scrollTop;
+    if(y>24&&y>lastY+2)bar.classList.add('compact');
+    else if(y<lastY-2||y<=24)bar.classList.remove('compact');
+    clearTimeout(restTimer);
+    restTimer=setTimeout(()=>bar.classList.remove('compact'),180);
+    lastY=y;
+  },{passive:true});
+});
+
+
+/* ---------- iPhone app mode: Add to Home Screen hint ---------- */
+if(document.documentElement.classList.contains('app')&&!(navigator.standalone||matchMedia('(display-mode: standalone)').matches)){
+  setTimeout(()=>document.getElementById('a2hs').classList.add('show'),900);}
+
+</script>
+</body>
+</html>
