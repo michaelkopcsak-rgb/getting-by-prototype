@@ -1290,13 +1290,11 @@ function startBreath(title,mode){
   resetRings();
   const cycleMs=B.phases.reduce((a,p)=>a+p[1],0);
   let cycle=0;
-  let firstPulse=true;
   const runCycle=()=>{
-    pulseRings(cycleMs,firstPulse);firstPulse=false;
     let t=0;
     B.phases.forEach(([txt,d,sc],i)=>{
       timers.push(setTimeout(()=>{
-        c.style.transition=`transform ${d}ms ease-in-out`;c.style.transform=`scale(${sc})`;cue.textContent=txt;
+        c.style.transition=`transform ${d}ms ease-in-out`;c.style.transform=`scale(${sc})`;cue.textContent=txt;moveRings(sc,d);
         if(i===0)dots[cycle].classList.add('on');
       },t));
       t+=d;
@@ -1788,7 +1786,7 @@ renderPractice();
 
 /* Concentric rings: each breath they drift outward and fade, then reset as the next dot lights up. */
 function ringEls(){return [...document.querySelectorAll('#breath .ring')];}
-function resetRings(){ringEls().forEach(r=>{r.getAnimations().forEach(a=>a.cancel());r.style.transform=`scale(${r.dataset.s})`;r.style.opacity=r.dataset.o;});}
+function resetRings(){ringEls().forEach(r=>{r.getAnimations().forEach(a=>a.cancel());r.style.transition='transform 600ms ease, opacity 600ms ease';r.style.transform=`scale(${r.dataset.s})`;r.style.opacity=(r.dataset.o*.7).toFixed(2);});}
 function pulseRings(ms,first){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   ringEls().forEach((r,i)=>{
@@ -1800,6 +1798,17 @@ function pulseRings(ms,first){
       {transform:`scale(${s0+.34})`,opacity:0,offset:.92},
       {transform:`scale(${s0+.34})`,opacity:0,offset:1}
     ],{duration:ms,easing:'cubic-bezier(.3,.1,.3,1)',delay:i*90,fill:'forwards'});
+  });
+}
+
+/* Rings radiate with the centre: out as it grows, back in as it shrinks. Outer rings travel farther. */
+function moveRings(sc,d){
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  ringEls().forEach((r,i)=>{
+    const s0=+r.dataset.s,o0=+r.dataset.o,k=sc-.6;
+    r.style.transition=still?'none':`transform ${d}ms ease-in-out ${i*80}ms, opacity ${d}ms ease-in-out ${i*80}ms`;
+    r.style.transform=`scale(${(s0+k*(.32+.16*i)).toFixed(3)})`;
+    r.style.opacity=Math.min(1,o0*(.7+k*1.1)).toFixed(2);
   });
 }
 resetRings();
