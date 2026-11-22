@@ -686,6 +686,48 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
 /* Breathing circle: solid Deep Jade #1B4D3E from the palette (both themes) */
 .breath{background:#1B4D3E;border-color:#1B4D3E;box-shadow:0 12px 30px -8px rgba(27,77,62,.45)}
 @media (prefers-color-scheme: dark){.breath{border-color:var(--sage);box-shadow:0 0 0 1px rgba(143,201,178,.35),0 12px 30px -8px rgba(0,0,0,.6)}}
+
+/* ---- Breathing practice: rounds, log, badges, celebration ---- */
+.round-label{min-height:20px;margin-top:10px;font:600 12.5px var(--sans);color:var(--faint);letter-spacing:.02em}
+.practice{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;color:var(--ink);font-family:var(--sans);margin-top:10px}
+.practice .grow{flex:1;min-width:0}
+.practice .t{font:600 15.5px var(--sans)}
+.practice .m{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+.bar{height:6px;border-radius:99px;background:var(--sage-ring);margin-top:9px;overflow:hidden}
+.bar b{display:block;height:100%;border-radius:99px;background:var(--sage);transition:width .4s ease}
+.medal{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--sage);color:#FFFFFF;font-size:24px;
+  box-shadow:0 0 0 4px var(--sage-soft),0 8px 18px -8px rgba(27,77,62,.6)}
+.medal.locked{background:transparent;color:var(--faint);box-shadow:none;border:1.5px dashed color-mix(in srgb,var(--faint) 55%,transparent)}
+.medal.empty{background:var(--sage-soft);color:var(--sage);box-shadow:none}
+.medal.big{width:104px;height:104px;font-size:52px;margin:0 auto 16px;box-shadow:0 0 0 8px var(--sage-soft),0 0 0 9px color-mix(in srgb,var(--sage) 25%,transparent),0 18px 40px -12px rgba(27,77,62,.6)}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.badge{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-card);padding:16px 8px 14px;text-align:center}
+.badge .medal{margin:0 auto 10px}
+.badge .bn{font:500 17px var(--serif);color:var(--ink)}
+.badge .bm{font-size:12px;color:var(--faint);margin-top:2px}
+.badge.locked .bn{color:var(--faint)}
+.medal-row{display:flex;gap:8px;margin-top:14px}
+.medal-row .medal{width:34px;height:34px;font-size:17px;box-shadow:0 0 0 3px var(--sage-soft)}
+.medal-row .medal.locked{box-shadow:none}
+.log-day{font:600 11.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:18px 4px 8px}
+.log-row{display:flex;align-items:center;gap:12px;padding:12px 2px;border-top:1px solid var(--line)}
+.log-row:first-child{border-top:0}
+.log-row .ic{width:38px;height:38px;border-radius:12px;background:var(--sage-soft);color:var(--sage);display:grid;place-items:center;font-size:19px;flex:none}
+.log-row .grow{flex:1;min-width:0}
+.log-row .t{font:600 15px var(--sans)}
+.log-row .m{font-size:13px;color:var(--muted);margin-top:2px}
+.log-row.short{opacity:.6}
+.helped{font:600 12px var(--sans);padding:4px 9px;border-radius:99px;background:var(--sage-soft);color:var(--sage);white-space:nowrap}
+.helped.no{background:var(--tile-on);color:var(--faint)}
+.celebrate{position:absolute;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:22px;
+  background:color-mix(in srgb,var(--ink) 45%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.celebrate.on{display:flex}
+.cel-card{width:100%;background:var(--surface);border-radius:28px;padding:30px 22px 20px;text-align:center;box-shadow:0 30px 60px -20px rgba(0,0,0,.4);animation:celIn .35s ease}
+.cel-card h1{font-size:38px;margin:6px 0 8px}
+.cel-line{font:400 19px/1.45 var(--serif);color:var(--ink);margin:0 0 10px}
+.cel-card .btn{margin-top:18px}
+@keyframes celIn{from{transform:translateY(16px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.cel-card{animation:none}.bar b{transition:none}}
 </style>
 </head>
 <body>
@@ -710,6 +752,7 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
         <span class="play"><i class="ti ti-player-play"></i></span>
         <span><div class="t">Let's take a deep breath</div><div class="m">1 minute · the kind where your chest and belly move</div></span>
       </button>
+      <button class="card practice" id="practice-today" onclick="openBreathLog()"></button>
 
       <div class="section-title">Today's small things</div>
       <div class="card">
@@ -774,17 +817,18 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
     <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
     <div class="topbar">
       <span class="eyebrow glass" id="breath-title">Physiological sigh</span>
-      <button class="help-pill glass" onclick="stopAll();go('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
+      <button class="help-pill glass" onclick="finishBreath('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
     </div>
     <div class="player">
       <div class="breath-wrap"><div class="breath-ring"></div><div class="breath" id="circle"></div></div>
       <div class="cue" id="cue">Get comfortable</div>
       <p class="sub" id="breath-sub">Eyes closed is fine. Your phone will tap gently with each step.</p>
       <div class="dots" id="dots"><span></span><span></span><span></span></div>
+      <div class="round-label" id="round-label" aria-live="polite"></div>
     </div>
     <div class="player-foot">
-      <button class="btn ghost" onclick="stopAll();go('checkin')">Stop here — that counts</button>
-      <div style="text-align:center"><button class="link" onclick="stopAll();go('rightnow')">Try a different one</button></div>
+      <button class="btn" onclick="finishBreath('finish')"><i class="ti ti-check"></i>Finish</button>
+      <div style="text-align:center"><button class="link" onclick="finishBreath('switched')">Try a different one</button></div>
     </div>
   </section>
 
@@ -951,6 +995,9 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
       <h1>Me</h1>
       <p class="sub">How it shows up for you, and a plan for the hard days.</p>
 
+      <div class="section-title">Breathing practice</div>
+      <div class="card" id="practice-me"></div>
+
       <div class="section-title">For the hardest days</div>
       <div class="card plan-hero">
         <div class="t">My First Aid Plan</div>
@@ -996,6 +1043,23 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
       <p class="sub" style="font-size:13px;margin:16px 4px 0">Getting By is not therapy. It's a companion to the work you do with your counselor.</p>
     </div>
     <nav class="tabbar glass"><button class="tab" onclick="go('today')"><i class="ti ti-sun"></i><span>Today</span></button><button class="tab" onclick="go('tools')"><i class="ti ti-tools"></i><span>Tools</span></button><button class="tab now" onclick="go('rightnow')"><span class="disc glass"><i class="ti ti-wind"></i></span><span>Right now</span></button><button class="tab on" onclick="go('me')"><i class="ti ti-user-circle"></i><span>Me</span></button><button class="tab" onclick="go('learn')"><i class="ti ti-book-2"></i><span>Learn</span></button></nav>
+  </section>
+
+  <!-- BREATHING LOG -->
+  <section class="screen" id="breathlog">
+    <div class="status"><span>9:41</span><span class="icons"><i class="ti ti-antenna-bars-5"></i><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+    <div class="topbar"><button class="icon-btn glass" onclick="back()" aria-label="Back"><i class="ti ti-chevron-left"></i></button><button class="help-pill glass" onclick="go('help')"><i class="ti ti-lifebuoy"></i>Get help</button></div>
+    <div class="scroll">
+      <span class="eyebrow">Breathing practice</span>
+      <h1>Every breath you've taken for yourself</h1>
+      <p class="sub">Each breathing break adds up. Nothing resets, and there are no streaks to keep.</p>
+      <div id="bl-summary"></div>
+      <div class="section-title">Your badges</div>
+      <div class="badges" id="bl-badges"></div>
+      <div class="section-title">All breathing breaks</div>
+      <div id="bl-list"></div>
+      <button class="btn" style="margin-top:18px" onclick="startBreath('Deep breathing','deep')"><i class="ti ti-wind"></i>Take a deep breath now</button>
+    </div>
   </section>
 
   <!-- PROFILE -->
@@ -1074,7 +1138,18 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
   </section>
 
   <div class="a2hs" id="a2hs" role="note"><button class="x" aria-label="Dismiss" onclick="this.parentNode.classList.remove('show')"><i class="ti ti-x"></i></button>
-    <b>Make it feel like an app</b><br>Tap <i class="ti ti-share"></i> Share, then <b>Add to Home Screen</b>. Open it from your Home Screen and it runs full-screen.<br><span style="opacity:.75">A prototype: nothing is saved, and calls and texts are switched off.</span></div>
+    <b>Make it feel like an app</b><br>Tap <i class="ti ti-share"></i> Share, then <b>Add to Home Screen</b>. Open it from your Home Screen and it runs full-screen.<br><span style="opacity:.75">A prototype: nothing is sent anywhere, and calls and texts are switched off.</span></div>
+  <div class="celebrate" id="celebrate" role="dialog" aria-modal="true" aria-labelledby="cel-name">
+    <div class="cel-card">
+      <div class="medal big" id="cel-medal"></div>
+      <span class="eyebrow" id="cel-level"></span>
+      <h1 id="cel-name"></h1>
+      <p class="cel-line" id="cel-line"></p>
+      <p class="sub" id="cel-count" style="font-size:14px"></p>
+      <button class="btn" onclick="closeCelebrate()">Thank you</button>
+      <button class="link" style="display:block;margin:6px auto 0" onclick="closeCelebrate();openBreathLog()">See my badges</button>
+    </div>
+  </div>
   <div class="toast glass" id="toast"></div>
 </div>
 
@@ -1084,7 +1159,7 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
     <ol>
       <li>Use the phone on the left like an app. Everything on it is clickable.</li>
       <li>Use the buttons below to jump to any screen.</li>
-      <li>Nothing you enter is saved or sent anywhere. Reloading the page resets it.</li>
+      <li>Nothing is sent anywhere. Breathing breaks are kept in this browser so badges can build up; everything else resets when you reload.</li>
       <li>Calls and texts are switched off in this demo. Tapping "Call 988" shows a short message instead of dialling.</li>
     </ol>
     <p style="margin:8px 0 0"><b>Most useful from you:</b> anything that doesn't sound like you, anything clinically off, the crisis wording (Get help, and the profile's "not wanting to be here" reply), and what you'd want the app to do next.</p>
@@ -1096,7 +1171,10 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
     <button onclick="go('today')">Today</button>
     <button onclick="go('rightnow')">Right now</button>
     <button onclick="startBreath('Physiological sigh')">Breath player</button>
-    <button onclick="startBreath('Deep breathing','deep')"><b>Deep breathing</b></button>
+    <button onclick="startBreath('Deep breathing','deep')">Deep breathing</button>
+    <button onclick="openBreathLog()"><b>Breathing log</b></button>
+    <button onclick="demoAddBreaks(4)"><b>+4 breathing breaks</b></button>
+    <button onclick="demoResetBreaks()"><b>Reset breathing log</b></button>
     <button onclick="startTimer()">Two-minute start</button>
     <button onclick="showScript('thoughts')">Script</button>
     <button onclick="go('checkin')">Check-in</button>
@@ -1118,6 +1196,7 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
   <div class="card">
     <strong>What changed in v6</strong>
     <ol>
+      <li><b>Breathing badges.</b> The breathing coach keeps going, round after round, until you tap <b>Finish</b>. Every session is logged. At 5, 10, 15, 20, 25 and 30 breathing breaks you earn a badge (Seedling, Sprout, Fern, Willow, Grove, Evergreen), celebrated the next time you land on Today. The count only goes up: no streaks, nothing to lose. Use "+4 breathing breaks" to see a celebration quickly.</li>
       <li><b>New visual system: Luminous Jade &amp; Plum.</b> Mint canvas, white cards, deep jade for actions, plum only for Get help and safety. Captions use #5E6F66 instead of the spec's #718279, which is too faint to read at small sizes (3.7:1).</li>
       <li><b>Type.</b> Newsreader serif for headings and reflective text; Inter for everything you tap.</li>
       <li><b>Get help</b> is a solid plum pill with a white lifebuoy on every screen. No orange or red anywhere.</li>
@@ -1156,6 +1235,7 @@ const sIdx={pleasure:0,mastery:0};
 let stack=['today'],timers=[];
 
 /*GO*/function go(id){
+  if(typeof curBreath!=='undefined'&&curBreath&&id!=='breath')endSession('left');
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   if(['today','tools','me','learn'].includes(id)) stack=[id];
@@ -1185,23 +1265,61 @@ const BREATHS={
   deep:{cycles:5,intro:'Sit back and get comfortable',sub:"Let's take deep breaths, the kind where your chest and belly move. A hand on your belly can help you feel it.",
     phases:[["Breathe in slowly through your nose. Let your belly rise.",4000,1.0],["Breathe out slowly. Let your belly fall.",6000,.6]]}
 };
+/* Breathing coach: loops round after round until the person taps Finish. Every session is logged. */
+var curBreath=null, lastBreathId=null;
 function startBreath(title,mode){
-  stopAll();go('breath');
+  if(curBreath)endSession('switched');
+  stopAll();
+  const source=stack[stack.length-1]||'today';
+  go('breath');
   const B=BREATHS[mode]||BREATHS.sigh;
+  curBreath={id:Date.now(),mode:BREATHS[mode]?mode:'sigh',title,source,startedAt:new Date().toISOString(),t0:Date.now(),breaths:0,rounds:0};
   document.getElementById('breath-title').textContent=title;
   document.getElementById('breath-sub').textContent=B.sub;
   const dotsEl=document.getElementById('dots');dotsEl.innerHTML='<span></span>'.repeat(B.cycles);
+  const roundEl=document.getElementById('round-label');roundEl.textContent='';
   const c=document.getElementById('circle'),cue=document.getElementById('cue'),dots=[...dotsEl.querySelectorAll('span')];
   c.style.transition='transform 600ms ease';c.style.transform='scale(.6)';cue.textContent=B.intro;
-  let t=1500;
-  for(let cycle=0;cycle<B.cycles;cycle++){
+  let cycle=0;
+  const runCycle=()=>{
+    let t=0;
     B.phases.forEach(([txt,d,sc],i)=>{
-      timers.push(setTimeout(()=>{c.style.transition=`transform ${d}ms ease-in-out`;c.style.transform=`scale(${sc})`;cue.textContent=txt;if(i===0)dots[cycle].classList.add('on');},t));
+      timers.push(setTimeout(()=>{
+        c.style.transition=`transform ${d}ms ease-in-out`;c.style.transform=`scale(${sc})`;cue.textContent=txt;
+        if(i===0)dots[cycle].classList.add('on');
+      },t));
       t+=d;
     });
-  }
-  timers.push(setTimeout(()=>{cue.textContent='Nice. Notice how you feel.';},t));
-  timers.push(setTimeout(()=>go('checkin'),t+2200));
+    timers.push(setTimeout(()=>{
+      if(!curBreath)return;
+      curBreath.breaths++;cycle++;
+      if(cycle===B.cycles){
+        cycle=0;curBreath.rounds++;
+        dots.forEach(d=>d.classList.remove('on'));
+      }
+      if(curBreath.rounds>0)roundEl.textContent=`Round ${curBreath.rounds+1} · ${curBreath.breaths} breaths`;
+      runCycle();
+    },t));
+  };
+  timers.push(setTimeout(runCycle,1500));
+}
+function endSession(how){
+  if(!curBreath)return null;
+  stopAll();
+  const x=curBreath;curBreath=null;
+  const e={id:x.id,mode:x.mode,title:x.title,source:x.source,startedAt:x.startedAt,endedAt:new Date().toISOString(),
+    seconds:Math.max(1,Math.round((Date.now()-x.t0)/1000)),breaths:x.breaths,rounds:x.rounds,ended:how,helped:null,counted:x.breaths>=1};
+  BLOG.push(e);saveLog();
+  lastBreathId=e.counted?e.id:null;
+  return e;
+}
+function finishBreath(how){
+  const e=endSession(how);
+  if(how==='finish'){
+    go('checkin');
+    if(e&&!e.counted)toast("That was short, and that's okay. It counts once you finish one full breath.");
+  }else if(how==='switched')go('rightnow');
+  else if(how==='help')go('help');
 }
 
 function startTimer(){
@@ -1230,6 +1348,7 @@ function showScript(k){
 }
 
 function answer(a){
+  if(lastBreathId){const e=BLOG.find(x=>x.id===lastBreathId);if(e){e.helped=a;saveLog();}lastBreathId=null;}
   document.getElementById('checkin-q').style.display='none';document.getElementById('checkin-a').style.display='flex';
   const h=document.getElementById('a-head'),sub=document.getElementById('a-sub'),act=document.getElementById('a-actions');
   if(a==='no'){
@@ -1566,6 +1685,94 @@ document.querySelectorAll('.scroll').forEach(scroller=>{
 /* ---------- iPhone app mode: Add to Home Screen hint ---------- */
 if(document.documentElement.classList.contains('app')&&!(navigator.standalone||matchMedia('(display-mode: standalone)').matches)){
   setTimeout(()=>document.getElementById('a2hs').classList.add('show'),900);}
+
+
+/* ---------- Breathing practice: log + badges ---------- */
+const BADGES=[
+  {n:5, name:'Seedling', icon:'ti-seeding', line:"You've started something. Five times now, you stopped and breathed."},
+  {n:10,name:'Sprout',   icon:'ti-plant',   line:"Ten breathing breaks. It's starting to take root."},
+  {n:15,name:'Fern',     icon:'ti-plant-2', line:"Fifteen. Coming back to your breath is getting a little easier."},
+  {n:20,name:'Willow',   icon:'ti-leaf',    line:"Twenty. Like a willow, you can bend in a hard moment without breaking."},
+  {n:25,name:'Grove',    icon:'ti-tree',    line:"Twenty-five. A whole grove of calm moments you made for yourself."},
+  {n:30,name:'Evergreen',icon:'ti-trees',   line:"Thirty and counting. Deep breathing is part of your life now, there whenever you need it."}
+];
+const LOG_KEY='gb.breathLog.v1', SEEN_KEY='gb.badgeSeen.v1';
+let BLOG=[];
+try{BLOG=JSON.parse(localStorage.getItem(LOG_KEY)||'[]')||[];}catch(e){BLOG=[];}
+function saveLog(){try{localStorage.setItem(LOG_KEY,JSON.stringify(BLOG));}catch(e){}}
+function seenLevel(){try{return +(localStorage.getItem(SEEN_KEY)||0);}catch(e){return 0;}}
+function setSeen(n){try{localStorage.setItem(SEEN_KEY,String(n));}catch(e){}}
+function breakCount(){return BLOG.filter(x=>x.counted).length;}
+function levelFor(n){return BADGES.filter(b=>n>=b.n).length;}
+function nextBadge(n){return BADGES.find(b=>n<b.n)||null;}
+function plural(n,w){return `${n} ${w}${n===1?'':'s'}`;}
+function medal(b,cls=''){return `<span class="medal ${cls}"><i class="ti ${b.icon}"></i></span>`;}
+function progressHTML(n){
+  const lv=levelFor(n),cur=BADGES[lv-1],nx=nextBadge(n),prev=cur?cur.n:0;
+  const pct=nx?Math.round((n-prev)/(nx.n-prev)*100):100;
+  if(!n)return {m:`Take 5 breathing breaks to earn your first badge, <b>Seedling</b>.`,pct:0,medal:medal(BADGES[0],'empty')};
+  return {m:nx?`${cur?`<b>${cur.name}</b> · `:''}${nx.n-n} more to <b>${nx.name}</b>`:`<b>Evergreen</b> · every breathing break still counts`,pct,medal:cur?medal(cur):medal(BADGES[0],'empty')};
+}
+function renderPractice(){
+  const n=breakCount(),p=progressHTML(n);
+  const today=document.getElementById('practice-today');
+  if(today)today.innerHTML=`${p.medal}<span class="grow"><div class="t">${n?plural(n,'breathing break'):'Your breathing practice'}</div><div class="m">${p.m}</div><div class="bar"><b style="width:${p.pct}%"></b></div></span><i class="ti ti-chevron-right" style="color:var(--faint)"></i>`;
+  const me=document.getElementById('practice-me');
+  if(me)me.innerHTML=`<div class="row">${p.medal}<span style="flex:1"><div style="font:600 16px var(--sans)">${n?plural(n,'breathing break'):'No breathing breaks yet'}</div><div class="sub" style="font-size:13.5px;margin-top:2px">${p.m}</div></span></div>
+    <div class="bar"><b style="width:${p.pct}%"></b></div>
+    <div class="medal-row">${BADGES.map(b=>medal(b,n>=b.n?'':'locked')).join('')}</div>
+    <div class="row" style="margin-top:14px;gap:8px"><button class="btn" style="min-height:44px;font-size:15px" onclick="startBreath('Deep breathing','deep')"><i class="ti ti-wind"></i>Breathe now</button><button class="btn ghost" style="min-height:44px;font-size:15px" onclick="openBreathLog()">See all</button></div>`;
+}
+function fmtDur(s){const m=Math.floor(s/60),r=s%60;return m?`${m} min${r?` ${r} s`:''}`:`${r} s`;}
+function dayLabel(d){const t=new Date(),y=new Date(Date.now()-864e5);
+  if(d.toDateString()===t.toDateString())return 'Today';if(d.toDateString()===y.toDateString())return 'Yesterday';
+  return d.toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});}
+function openBreathLog(){go('breathlog');renderBreathLog();}
+function renderBreathLog(){
+  const n=breakCount(),p=progressHTML(n);
+  document.getElementById('bl-summary').innerHTML=`<div class="card practice" style="cursor:default;margin-top:16px">${p.medal}<span class="grow"><div class="t">${n?plural(n,'breathing break'):'No breathing breaks yet'}</div><div class="m">${p.m}</div><div class="bar"><b style="width:${p.pct}%"></b></div></span></div>`;
+  document.getElementById('bl-badges').innerHTML=BADGES.map((b,i)=>{const got=n>=b.n;
+    return `<div class="badge ${got?'':'locked'}">${medal(b,got?'':'locked')}<div class="bn">${b.name}</div><div class="bm">${got?`Level ${i+1}`:`At ${b.n}${i===BADGES.length-1?'+':''}`}</div></div>`;}).join('');
+  const list=[...BLOG].reverse();
+  if(!list.length){document.getElementById('bl-list').innerHTML=`<div class="card"><p class="sub" style="margin:0">Your breathing breaks will show up here. Even a single breath counts.</p></div>`;return;}
+  let h='',day='';const H={yes:'Helped',bit:'A bit',no:'Not really'};
+  list.forEach(e=>{const d=new Date(e.startedAt),dl=dayLabel(d);
+    if(dl!==day){if(day)h+='</div>';h+=`<div class="log-day">${dl}</div><div class="card" style="padding:4px 14px">`;day=dl;}
+    const meta=`${d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})} · ${fmtDur(e.seconds)} · ${e.counted?plural(e.breaths,'breath'):'less than one breath'}`;
+    const tag=e.counted?(e.helped?`<span class="helped ${e.helped==='no'?'no':''}">${H[e.helped]}</span>`:''):`<span class="helped no">Not counted</span>`;
+    h+=`<div class="log-row ${e.counted?'':'short'}"><span class="ic"><i class="ti ${e.mode==='deep'?'ti-wind':'ti-heartbeat'}"></i></span><span class="grow"><div class="t">${e.mode==='deep'?'Deep breathing':'Physiological sigh'}</div><div class="m">${meta}</div></span>${tag}</div>`;});
+  document.getElementById('bl-list').innerHTML=h+'</div>';
+}
+function maybeCelebrate(){
+  const n=breakCount(),lv=levelFor(n);
+  if(lv>seenLevel()&&document.getElementById('today').classList.contains('on')){
+    const b=BADGES[lv-1];
+    document.getElementById('cel-medal').innerHTML=`<i class="ti ${b.icon}"></i>`;
+    document.getElementById('cel-level').textContent=`New badge · Level ${lv} of ${BADGES.length}`;
+    document.getElementById('cel-name').textContent=b.name;
+    document.getElementById('cel-line').textContent=b.line;
+    const nx=nextBadge(n);
+    document.getElementById('cel-count').textContent=`${plural(n,'breathing break')} so far.`+(nx?` Next up: ${nx.name}, at ${nx.n}.`:'');
+    setTimeout(()=>{if(document.getElementById('today').classList.contains('on'))document.getElementById('celebrate').classList.add('on');},450);
+  }
+}
+function closeCelebrate(){document.getElementById('celebrate').classList.remove('on');setSeen(levelFor(breakCount()));}
+const _renderToday=renderToday;
+renderToday=function(){_renderToday();renderPractice();maybeCelebrate();};
+const _renderMe=renderMe;
+renderMe=function(){_renderMe();renderPractice();};
+/* Review helpers (notes panel only) */
+function demoAddBreaks(k){
+  for(let i=0;i<k;i++){const d=new Date(Date.now()-(k-i)*3.6e6*7);const deep=i%3!==2;const br=deep?5+((i*3)%6):3;
+    BLOG.push({id:+d+i,mode:deep?'deep':'sigh',title:deep?'Deep breathing':'Physiological sigh',source:'today',startedAt:d.toISOString(),endedAt:d.toISOString(),
+      seconds:deep?br*10:br*8,breaths:br,rounds:Math.floor(br/5),ended:'finish',helped:['yes','bit',null,'yes'][i%4],counted:true});}
+  BLOG.sort((a,b)=>new Date(a.startedAt)-new Date(b.startedAt));saveLog();
+  toast(`${plural(breakCount(),'breathing break')} logged`);
+  if(document.getElementById('breathlog').classList.contains('on'))renderBreathLog();
+  stack=['today'];go('today');
+}
+function demoResetBreaks(){BLOG=[];saveLog();setSeen(0);toast('Breathing log cleared');stack=['today'];go('today');}
+renderPractice();
 
 </script>
 </body>
