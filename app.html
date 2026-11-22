@@ -690,6 +690,10 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
 
 /* Breathing cue: room for two-line coaching without the layout jumping */
 .cue{font-size:24px;line-height:1.3;min-height:94px;display:flex;align-items:center;justify-content:center;max-width:320px;margin:0 auto}
+
+/* Breathing circle: solid Deep Jade #1B4D3E from the palette (both themes) */
+.breath{background:#1B4D3E;border-color:#1B4D3E;box-shadow:0 12px 30px -8px rgba(27,77,62,.45)}
+@media (prefers-color-scheme: dark){.breath{border-color:var(--sage);box-shadow:0 0 0 1px rgba(143,201,178,.35),0 12px 30px -8px rgba(0,0,0,.6)}}
 </style>
 </head>
 <body>
