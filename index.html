@@ -735,6 +735,9 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
 .breath-glow{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,var(--sage-soft) 0,transparent 70%)}
 .ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--sage);pointer-events:none;will-change:transform,opacity}
 .breath{position:relative;z-index:1}
+
+/* Two-minute timer: the jade band is the time left, so it shrinks as the clock counts down (smooth via @property). */
+@property --p{syntax:'<angle>';inherits:false;initial-value:360deg}
 </style>
 </head>
 <body>
@@ -853,7 +856,7 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
     </div>
     <div class="player-foot">
       <button class="btn" id="timer-btn" onclick="runTimer()"><i class="ti ti-player-play"></i>Start two minutes</button>
-      <button class="btn ghost" onclick="stopAll();go('checkin')">Stop here — that counts</button>
+      <button class="btn ghost" onclick="stopAll();go('checkin')">Done</button>
     </div>
   </section>
 
@@ -1333,7 +1336,7 @@ function finishBreath(how){
 
 function startTimer(){
   stopAll();go('timer');
-  document.getElementById('clock').textContent='2:00';document.getElementById('ring').style.setProperty('--p','0deg');
+  document.getElementById('clock').textContent='2:00';const rg=document.getElementById('ring');rg.style.transition='none';rg.style.setProperty('--p','360deg');
   document.getElementById('timer-head').textContent='Pick one thing. Do only the first two minutes.';
   document.getElementById('timer-sub').textContent="When the timer ends, you're allowed to stop. Stopping counts as a complete success.";
   const b=document.getElementById('timer-btn');b.style.display='flex';
@@ -1343,7 +1346,7 @@ function runTimer(){
   const total=120;let left=total;
   const tick=()=>{left--;const m=Math.floor(left/60),s=String(left%60).padStart(2,'0');
     document.getElementById('clock').textContent=`${m}:${s}`;
-    document.getElementById('ring').style.setProperty('--p',`${(total-left)/total*360}deg`);
+    const rg=document.getElementById('ring');rg.style.transition='--p 1s linear';rg.style.setProperty('--p',`${left/total*360}deg`);
     if(left<=0){stopAll();document.getElementById('timer-head').textContent='Two minutes. You did it.';
       document.getElementById('timer-sub').textContent='You can stop now — or keep going if you want to. Either way counts.';}};
   timers.push(setInterval(tick,1000));
