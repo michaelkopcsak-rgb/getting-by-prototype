@@ -736,6 +736,13 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
 .cel-card .btn{margin-top:18px}
 @keyframes celIn{from{transform:translateY(16px) scale(.96);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion: reduce){.cel-card{animation:none}.bar b{transition:none}}
+
+/* Animated concentric rings around the breathing circle */
+.breath-wrap{overflow:visible}
+.breath-ring{display:none}
+.breath-glow{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,var(--sage-soft) 0,transparent 70%)}
+.ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--sage);pointer-events:none;will-change:transform,opacity}
+.breath{position:relative;z-index:1}
 </style>
 </head>
 <body>
@@ -828,7 +835,7 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
       <button class="help-pill glass" onclick="finishBreath('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
     </div>
     <div class="player">
-      <div class="breath-wrap"><div class="breath-ring"></div><div class="breath" id="circle"></div></div>
+      <div class="breath-wrap"><div class="breath-glow"></div><div class="ring" data-s=".64" data-o=".55"></div><div class="ring" data-s=".8" data-o=".42"></div><div class="ring" data-s=".96" data-o=".3"></div><div class="breath" id="circle"></div></div>
       <div class="cue" id="cue">Get comfortable</div>
       <p class="sub" id="breath-sub">Eyes closed is fine. Your phone will tap gently with each step.</p>
       <div class="dots" id="dots"><span></span><span></span><span></span></div>
@@ -1288,8 +1295,12 @@ function startBreath(title,mode){
   const roundEl=document.getElementById('round-label');roundEl.textContent='';
   const c=document.getElementById('circle'),cue=document.getElementById('cue'),dots=[...dotsEl.querySelectorAll('span')];
   c.style.transition='transform 600ms ease';c.style.transform='scale(.6)';cue.textContent=B.intro;
+  resetRings();
+  const cycleMs=B.phases.reduce((a,p)=>a+p[1],0);
   let cycle=0;
+  let firstPulse=true;
   const runCycle=()=>{
+    pulseRings(cycleMs,firstPulse);firstPulse=false;
     let t=0;
     B.phases.forEach(([txt,d,sc],i)=>{
       timers.push(setTimeout(()=>{
@@ -1782,6 +1793,24 @@ function demoAddBreaks(k){
 function demoResetBreaks(){BLOG=[];saveLog();setSeen(0);toast('Breathing log cleared');stack=['today'];go('today');}
 renderPractice();
 
+
+/* Concentric rings: each breath they drift outward and fade, then reset as the next dot lights up. */
+function ringEls(){return [...document.querySelectorAll('#breath .ring')];}
+function resetRings(){ringEls().forEach(r=>{r.getAnimations().forEach(a=>a.cancel());r.style.transform=`scale(${r.dataset.s})`;r.style.opacity=r.dataset.o;});}
+function pulseRings(ms,first){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  ringEls().forEach((r,i)=>{
+    r.getAnimations().forEach(a=>a.cancel());
+    const s0=+r.dataset.s,o0=+r.dataset.o;
+    r.animate([
+      first?{transform:`scale(${s0})`,opacity:o0,offset:0}:{transform:`scale(${s0-.05})`,opacity:0,offset:0},
+      {transform:`scale(${s0+.06})`,opacity:o0,offset:.12},
+      {transform:`scale(${s0+.34})`,opacity:0,offset:.92},
+      {transform:`scale(${s0+.34})`,opacity:0,offset:1}
+    ],{duration:ms,easing:'cubic-bezier(.3,.1,.3,1)',delay:i*90,fill:'forwards'});
+  });
+}
+resetRings();
 </script>
 </body>
 </html>
