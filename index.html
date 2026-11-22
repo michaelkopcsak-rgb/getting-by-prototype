@@ -827,7 +827,7 @@ html.app .tabbar,html.app .tabbar.glass{bottom:calc(14px + env(safe-area-inset-b
       <button class="help-pill glass" onclick="finishBreath('help')"><i class="ti ti-lifebuoy"></i>Get help</button>
     </div>
     <div class="player">
-      <div class="breath-wrap"><div class="breath-glow"></div><div class="ring" data-s=".64" data-o=".55"></div><div class="ring" data-s=".8" data-o=".42"></div><div class="ring" data-s=".96" data-o=".3"></div><div class="breath" id="circle"></div></div>
+      <div class="breath-wrap"><div class="breath-glow"></div><div class="ring" data-lo=".40" data-hi=".66" data-o=".55"></div><div class="ring" data-lo=".50" data-hi=".84" data-o=".42"></div><div class="ring" data-lo=".60" data-hi="1.02" data-o=".3"></div><div class="breath" id="circle"></div></div>
       <div class="cue" id="cue">Get comfortable</div>
       <p class="sub" id="breath-sub">Eyes closed is fine. Your phone will tap gently with each step.</p>
       <div class="dots" id="dots"><span></span><span></span><span></span></div>
@@ -1786,7 +1786,7 @@ renderPractice();
 
 /* Concentric rings: each breath they drift outward and fade, then reset as the next dot lights up. */
 function ringEls(){return [...document.querySelectorAll('#breath .ring')];}
-function resetRings(){ringEls().forEach(r=>{r.getAnimations().forEach(a=>a.cancel());r.style.transition='transform 600ms ease, opacity 600ms ease';r.style.transform=`scale(${r.dataset.s})`;r.style.opacity=(r.dataset.o*.7).toFixed(2);});}
+function resetRings(){ringEls().forEach(r=>{r.getAnimations().forEach(a=>a.cancel());r.style.transition='transform 600ms ease, opacity 600ms ease';r.style.transform=`scale(${r.dataset.lo})`;r.style.opacity=(r.dataset.o*.65).toFixed(2);});}
 function pulseRings(ms,first){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   ringEls().forEach((r,i)=>{
@@ -1803,12 +1803,13 @@ function pulseRings(ms,first){
 
 /* Rings radiate with the centre: out as it grows, back in as it shrinks. Outer rings travel farther. */
 function moveRings(sc,d){
-  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Rings track the centre: tight around the dot when it is small (out-breath), wide when it is full (in-breath). */
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches, k=(sc-.6)/.4;
   ringEls().forEach((r,i)=>{
-    const s0=+r.dataset.s,o0=+r.dataset.o,k=sc-.6;
+    const lo=+r.dataset.lo,hi=+r.dataset.hi,o0=+r.dataset.o;
     r.style.transition=still?'none':`transform ${d}ms ease-in-out ${i*80}ms, opacity ${d}ms ease-in-out ${i*80}ms`;
-    r.style.transform=`scale(${(s0+k*(.32+.16*i)).toFixed(3)})`;
-    r.style.opacity=Math.min(1,o0*(.7+k*1.1)).toFixed(2);
+    r.style.transform=`scale(${(lo+k*(hi-lo)).toFixed(3)})`;
+    r.style.opacity=Math.min(1,o0*(.65+k*.55)).toFixed(2);
   });
 }
 resetRings();
